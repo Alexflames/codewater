@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Program</name>
+    </assembly>
+    <members>
+        <member name="M:technoprog4_3.Program.Input">
+            <summary>
+            Ввод двумерного массива с консоли
+            </summary>
+            <returns> Двумерный массив </returns>
+        </member>
+        <member name="M:technoprog4_3.Program.Max(System.Int32[])">
+            <summary>
+            Поиск максимума в массиве
+            </summary>
+            <param name="a"> Массив чисел </param>
+            <returns> Число - максимум </returns>
+        </member>
+        <member name="M:technoprog4_3.Program.arrMin(System.Int32[][])">
+            <summary>
+            Создание массива минимумов,
+            состоящего из минимумов в каждой строке исходного
+            </summary>
+            <param name="a"> Исходный двумерный массив </param>
+            <returns> Массив минимумов в каждой строке </returns>
+        </member>
+    </members>
+</doc>

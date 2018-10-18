@@ -1,0 +1,6 @@
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\bin\Debug\graphpract.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\bin\Debug\graphpract.pdb
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\obj\Debug\graphpract.csprojAssemblyReference.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\obj\Debug\graphpract.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\obj\Debug\graphpract.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\graphpract\graphpract\obj\Debug\graphpract.pdb
