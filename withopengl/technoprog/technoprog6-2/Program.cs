@@ -78,8 +78,9 @@ namespace technoprog6_2
 
             KeyValuePair<int, int> ans = IndexOf(ref numbers, elementToFind, 0, 99, 0);
             Console.WriteLine(
-                        "Простой поиск: " + ans.Value + " итераций, "
+                        "Двоичный поиск: " + ans.Value + " итераций, "
                         + " элемент на позиции " + ans.Key);
+            Console.ReadKey();
         }
     }
 }

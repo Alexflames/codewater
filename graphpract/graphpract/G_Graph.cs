@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -113,12 +114,53 @@ namespace graphpract
 
         #region Методы для работы с графом
 
+        public static void BFS_Visit_Route(G_Graph g_Graph, Node startFrom, 
+            ref Dictionary<Node, Node> toFrom, ref Dictionary<Node, bool> visited,
+            ref Queue<Node> nodesQueue)
+        {
+            foreach (EdgeTo edgeTo in g_Graph.GetGraph()[startFrom])
+            {
+                Node nodeTo = edgeTo.GetNodeTo();
+                if (!visited[nodeTo])
+                {
+                    toFrom.Add(nodeTo, startFrom); // дополняем список предков
+                    visited[nodeTo] = true;
+                    nodesQueue.Enqueue(nodeTo);
+                }
+            }
+
+            if (nodesQueue.Count != 0)
+            {
+                BFS_Visit_Route(g_Graph, nodesQueue.Dequeue(), ref toFrom, ref visited, ref nodesQueue);
+            }
+        }
+
+        // Работает только для связных графов
+        public static Dictionary<Node, Node> BFS_Prev(G_Graph g_Graph, Node startFrom)
+        {
+            Dictionary<Node, Node> toFrom = new Dictionary<Node, Node>();
+            Dictionary<Node, bool> visited = new Dictionary<Node, bool>();
+            foreach (Node node in g_Graph.GetGraph().Keys)
+            {
+                visited.Add(node, false);
+            }
+
+            Queue<Node> nodesQueue = new Queue<Node>();
+
+            BFS_Visit_Route(g_Graph, startFrom, ref toFrom, ref visited, ref nodesQueue);
+
+            return toFrom;
+        }
+
+
+        #region отлаженные
+
         private static void DFS_Visit(Node visitNode, G_Graph dfsGraph)
         {
             visitNode.SetColor(Node.Color.GREY);
 
             var graph = dfsGraph.GetGraph();
-            foreach(EdgeTo edge in graph[visitNode])
+            foreach (EdgeTo edge in graph[visitNode])
             {
                 if (edge.GetNodeTo().GetColor() == Node.Color.WHITE)
                 {
@@ -168,7 +210,140 @@ namespace graphpract
             return false;
         }
 
-        #region отлаженные
+        private static bool DFS_Visit_Boruv(Node visitNode, G_Graph dfsGraph, out EdgeTo minEdgeTo)
+        {
+            visitNode.SetColor(Node.Color.GREY);
+
+            var graph = dfsGraph.GetGraph();
+            minEdgeTo = graph[visitNode].First();
+
+            foreach (EdgeTo edge in graph[visitNode])
+            {
+                if (edge.GetNodeTo().GetColor() == Node.Color.BLACK)
+                {
+                    visitNode.SetColor(Node.Color.BLACK);
+                    return false;
+                }
+                if (edge.GetNodeTo().GetColor() == Node.Color.WHITE)
+                {
+                    if (edge.GetWeight() < minEdgeTo.GetWeight())
+                    {
+                        minEdgeTo = edge;
+                    }
+                    DFS_Visit_Boruv(edge.GetNodeTo(), dfsGraph, out EdgeTo minEdge);
+                    if(minEdge.GetWeight() < minEdgeTo.GetWeight())
+                    {
+                        minEdgeTo = minEdge;
+                    }
+                }
+            }
+            visitNode.SetColor(Node.Color.BLACK);
+            return true;
+        }
+
+        private static void DFS_AddToList(Node visitNode,
+            Dictionary<Node, List<EdgeTo>> graph, ref List<Node> blackNodes)
+        {
+            visitNode.SetColor(Node.Color.GREY);
+
+            foreach (EdgeTo edge in graph[visitNode])
+            {
+                if (edge.GetNodeTo().GetColor() == Node.Color.WHITE)
+                {
+                    DFS_AddToList(edge.GetNodeTo(), graph, ref blackNodes);    
+                }
+            }
+            visitNode.SetColor(Node.Color.BLACK);
+            blackNodes.Add(visitNode);
+        }
+
+        public static G_Graph Boruv(G_Graph DFSgraph)
+        {
+            var graph = DFSgraph.GetGraph();
+            DFS_Init(graph.Keys);
+
+            // Создаем копию графа
+            G_Graph result = new G_Graph(DFSgraph, GraphCopyMode.VERTEX_ONLY);
+            var resGraph = result.GetGraph();
+
+            // Устанавливаем связь между копией и исходным графом
+            List<Node> copyNodes = new List<Node>();
+            Dictionary<Node, Node> copyToOrig = new Dictionary<Node, Node>();
+            Dictionary<Node, Node> origToCopy = new Dictionary<Node, Node>();
+            foreach (var node in resGraph)
+            {
+                copyNodes.Add(node.Key);
+            }
+            int it = 0;
+            foreach (var node in graph)
+            {
+                copyToOrig.Add(copyNodes[it], node.Key);
+                origToCopy.Add(node.Key, copyNodes[it]);
+                it++;
+            }
+
+            // Первичная инициализация закончена. Начинаем алгоритм
+
+            bool anyWhite = true; // true если в результате обхода не одна компонента связности
+            while (anyWhite)
+            {
+                // Снова инициализация. Все вершины нового графа белые.
+                foreach (var node in resGraph)
+                {
+                    node.Key.SetColor(Node.Color.WHITE);
+                }
+
+                foreach (var node in resGraph)
+                {
+                    List<Node> connectedToThis = new List<Node>();
+
+                    // Находим вершины в данной компоненте связности
+                    if (node.Key.GetColor() == Node.Color.WHITE)
+                    {
+                        DFS_AddToList(node.Key, resGraph, ref connectedToThis);
+
+                        // Если компонента связности - граф
+                        if (connectedToThis.Count == graph.Count)
+                        {
+                            return result;
+                        }
+
+                        // Ищем минимальное ребро от черных вершин до нечерных
+                        Node nodeMinEdgeFrom = null; EdgeTo minEdgeTo = null; int minEdgeToValue = int.MaxValue;
+                        foreach (Node connectedNode in connectedToThis)
+                        {
+                            // Берем аналог из основного графа
+                            Node analogueNode = copyToOrig[connectedNode];
+                            foreach (EdgeTo edge in graph[analogueNode])
+                            {
+                                if (origToCopy[edge.GetNodeTo()].GetColor() == Node.Color.WHITE &&
+                                    edge.GetWeight() < minEdgeToValue)
+                                {
+                                    minEdgeTo = edge;
+                                    minEdgeToValue = edge.GetWeight();
+                                    nodeMinEdgeFrom = connectedNode;
+                                }
+                            }
+                        }
+                        if (minEdgeTo != null)
+                        {
+                            // Добавляем минимальное ребро.
+                            // Начинаем окрас в черный новой компоненты связности
+                            EdgeTo minCopy = new EdgeTo(minEdgeTo, origToCopy[minEdgeTo.GetNodeTo()]);
+                            result.AddEdge(nodeMinEdgeFrom, minCopy);
+                            // Третий аргумент не имеет практического применения, просто окрас
+                            DFS_AddToList(origToCopy[minEdgeTo.GetNodeTo()], resGraph, ref connectedToThis);
+                            if (connectedToThis.Count + 1 == graph.Count)
+                            {
+                                return result;
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         public bool IsOriented()
         {
             return m_oriented;
@@ -213,7 +388,7 @@ namespace graphpract
                 EdgeTo back = new EdgeTo(node);
                 if (IsWeighted())
                     back.SetWeight(edge.GetWeight());
-                m_graph[edge.GetNodeTo()].Add(new EdgeTo(node));
+                m_graph[edge.GetNodeTo()].Add(back);
             }
         }
 
@@ -465,7 +640,8 @@ namespace graphpract
         public enum GraphCopyMode
         {
             STANDARD,
-            INVERSE
+            INVERSE,
+            VERTEX_ONLY
         }
 
         public G_Graph(G_Graph graph, GraphCopyMode graphCopyMode)
@@ -563,6 +739,16 @@ namespace graphpract
                     }
                 }
                 m_oriented = false;
+            }
+
+            else if (graphCopyMode == GraphCopyMode.VERTEX_ONLY)
+            {
+                foreach (var node in inputGraph)
+                {
+                    Node nodeCopy = new Node(node.Key);
+                    InsertNode(nodeCopy);
+                }
+                SetWeighted(true);
             }
         }
              

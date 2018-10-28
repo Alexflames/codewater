@@ -178,10 +178,56 @@ vector <vector <double>>* MakeSplineTable4Gauss(vector <funValue> * inputVector)
 	return (&ans);
 }
 
-vector <double> Gauss(vector <vector <double>> * inputVector) {
-	//vector <double> 
-	//vector <double> freeColumn;
-	//for (int row = 0; i < inputVector->size())
+pair<vector <double>, vector<int>> Gauss(vector <vector <double>> * inputVector) {
+	vector <vector <double>> input = *(inputVector);
+	vector <double> minusRow{ 0 };
+	vector <int> xswitch;
+	vector <double> freeCol{ 1 };
+
+	for (int i = 0; i < input.size(); i++) {
+		xswitch.push_back(i);
+	}
+	for (int row = 0; row < input.size(); row++) {
+		// ¬ычитаем из строки соответственно накопленным преобразовани€м
+		for (int col = 0; col < input.size; col++) {
+			input[row][col] -= minusRow[col];
+		}
+
+		// ћножитель, на который будет делитьс€ строка
+		double multiplierDel = input[row][row];
+		if (multiplierDel == 0) {
+			int saveRow = 0;
+			for (int rowDesc = row + 1; rowDesc < input.size(); rowDesc++) {
+				if (input[rowDesc][row] != 0) {
+					saveRow = rowDesc;
+					break;
+				}
+			}
+
+			for (int col = row; col < input.size(); col++) {
+				swap(input[row][col], input[saveRow][col]);
+			}
+			swap(freeCol[row], freeCol[saveRow]);
+			multiplierDel = input[row][row];
+		}
+
+		// ѕосле данного цикла на диагонали в текущем р€ду единица
+		double multiplierDel = input[row][0];
+		for (int col = row; col < input.size(); col++) {
+			input[row][col] /= multiplierDel;
+		}
+		freeCol[row] /= multiplierDel;
+
+		// Ќадо увеличить 
+		for (int col = row + 1; col < input.size(); col++) {
+			
+		}
+	}
+
+	vector <double> ans;
+	for (int i = 0; i < ans.size; i++) {
+
+	}
 }
 
 int main() {

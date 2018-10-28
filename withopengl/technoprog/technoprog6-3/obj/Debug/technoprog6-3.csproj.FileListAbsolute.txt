@@ -1,0 +1,7 @@
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\bin\Debug\technoprog6-3.exe.config
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\bin\Debug\technoprog6-3.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\bin\Debug\technoprog6-3.pdb
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\obj\Debug\technoprog6-3.csprojAssemblyReference.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\obj\Debug\technoprog6-3.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\obj\Debug\technoprog6-3.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog6-3\obj\Debug\technoprog6-3.pdb
