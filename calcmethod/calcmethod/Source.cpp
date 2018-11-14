@@ -178,89 +178,193 @@ vector <vector <double>>* MakeSplineTable4Gauss(vector <funValue> * inputVector)
 	return (&ans);
 }
 
-pair<vector <double>, vector<int>> Gauss(vector <vector <double>> * inputVector) {
-	vector <vector <double>> input = *(inputVector);
-	vector <double> minusRow{ 0 };
-	vector <int> xswitch;
-	vector <double> freeCol{ 1 };
+//pair<vector <double>, vector<int>> Gauss(vector <vector <double>> * inputVector) {
+//	vector <vector <double>> input = *(inputVector);
+//	vector <double> minusRow{ 0 };
+//	vector <int> xswitch;
+//	vector <double> freeCol{ 1 };
+//
+//	for (int i = 0; i < input.size(); i++) {
+//		xswitch.push_back(i);
+//	}
+//	for (int row = 0; row < input.size(); row++) {
+//		// Вычитаем из строки соответственно накопленным преобразованиям
+//		for (int col = 0; col < input.size; col++) {
+//			input[row][col] -= minusRow[col];
+//		}
+//
+//		// Множитель, на который будет делиться строка
+//		double multiplierDel = input[row][row];
+//		if (multiplierDel == 0) {
+//			int saveRow = 0;
+//			for (int rowDesc = row + 1; rowDesc < input.size(); rowDesc++) {
+//				if (input[rowDesc][row] != 0) {
+//					saveRow = rowDesc;
+//					break;
+//				}
+//			}
+//
+//			for (int col = row; col < input.size(); col++) {
+//				swap(input[row][col], input[saveRow][col]);
+//			}
+//			swap(freeCol[row], freeCol[saveRow]);
+//			multiplierDel = input[row][row];
+//		}
+//
+//		// После данного цикла на диагонали в текущем ряду единица
+//		double multiplierDel = input[row][0];
+//		for (int col = row; col < input.size(); col++) {
+//			input[row][col] /= multiplierDel;
+//		}
+//		freeCol[row] /= multiplierDel;
+//
+//		// Надо увеличить 
+//		for (int col = row + 1; col < input.size(); col++) {
+//			
+//		}
+//	}
+//
+//	vector <double> ans;
+//	for (int i = 0; i < ans.size; i++) {
+//
+//	}
+//}
 
-	for (int i = 0; i < input.size(); i++) {
-		xswitch.push_back(i);
-	}
-	for (int row = 0; row < input.size(); row++) {
-		// Вычитаем из строки соответственно накопленным преобразованиям
-		for (int col = 0; col < input.size; col++) {
-			input[row][col] -= minusRow[col];
+void sysout(double **a, double *y, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << a[i][j] << "*x" << j;
+			if (j < n - 1)
+				cout << " + ";
 		}
+		cout << " = " << y[i] << endl;
+	}
+	return;
+}
 
-		// Множитель, на который будет делиться строка
-		double multiplierDel = input[row][row];
-		if (multiplierDel == 0) {
-			int saveRow = 0;
-			for (int rowDesc = row + 1; rowDesc < input.size(); rowDesc++) {
-				if (input[rowDesc][row] != 0) {
-					saveRow = rowDesc;
-					break;
-				}
+double * gauss(double **a, double *y, int n)
+{
+	double *x, max;
+	int k, index;
+	const double eps = 0.00001;  // точность
+	x = new double[n];
+	k = 0;
+	while (k < n)
+	{
+		// Поиск строки с максимальным a[i][k]
+		max = abs(a[k][k]);
+		index = k;
+		for (int i = k + 1; i < n; i++)
+		{
+			if (abs(a[i][k]) > max)
+			{
+				max = abs(a[i][k]);
+				index = i;
 			}
-
-			for (int col = row; col < input.size(); col++) {
-				swap(input[row][col], input[saveRow][col]);
-			}
-			swap(freeCol[row], freeCol[saveRow]);
-			multiplierDel = input[row][row];
 		}
-
-		// После данного цикла на диагонали в текущем ряду единица
-		double multiplierDel = input[row][0];
-		for (int col = row; col < input.size(); col++) {
-			input[row][col] /= multiplierDel;
+		// Перестановка строк
+		if (max < eps)
+		{
+			// нет ненулевых диагональных элементов
+			cout << "Решение получить невозможно из-за нулевого столбца ";
+			cout << index << " матрицы A" << endl;
+			return 0;
 		}
-		freeCol[row] /= multiplierDel;
-
-		// Надо увеличить 
-		for (int col = row + 1; col < input.size(); col++) {
-			
+		for (int j = 0; j < n; j++)
+		{
+			double temp = a[k][j];
+			a[k][j] = a[index][j];
+			a[index][j] = temp;
 		}
+		double temp = y[k];
+		y[k] = y[index];
+		y[index] = temp;
+		// Нормализация уравнений
+		for (int i = k; i < n; i++)
+		{
+			double temp = a[i][k];
+			if (abs(temp) < eps) continue; // для нулевого коэффициента пропустить
+			for (int j = 0; j < n; j++)
+				a[i][j] = a[i][j] / temp;
+			y[i] = y[i] / temp;
+			if (i == k)  continue; // уравнение не вычитать само из себя
+			for (int j = 0; j < n; j++)
+				a[i][j] = a[i][j] - a[k][j];
+			y[i] = y[i] - y[k];
+		}
+		k++;
 	}
-
-	vector <double> ans;
-	for (int i = 0; i < ans.size; i++) {
-
+	// обратная подстановка
+	for (k = n - 1; k >= 0; k--)
+	{
+		x[k] = y[k];
+		for (int i = 0; i < k; i++)
+			y[i] = y[i] - a[i][k] * x[k];
 	}
+	return x;
 }
 
 int main() {
 	//vector <funValue> part_sums = (*CalcSinPartSums(-3, 3, 2));
 
 	// все 'x' и 'f' из дано ТУТ
-	vector <funValue> power3;
-	funValue temp = { 1, 1 };
-	power3.push_back(temp);
-	temp = { 2, 8 };
-	power3.push_back(temp);
-	temp = { 3, 27 };
-	power3.push_back(temp);
-	temp = { 4, 64 };
-	power3.push_back(temp);
-	// в блокноте подсказки
-	vector <funValue> result_middleInter = CalcNewton(&power3);
+	//vector <funValue> power3;
+	//funValue temp = { 1, 1 };
+	//power3.push_back(temp);
+	//temp = { 2, 8 };
+	//power3.push_back(temp);
+	//temp = { 3, 27 };
+	//power3.push_back(temp);
+	//temp = { 4, 64 };
+	//power3.push_back(temp);
 
+	//vector <funValue> result_middleInter = CalcNewton(&power3);
 
+	//for (int i = 0; i < result_middleInter.size(); i++) {
+	//	cout << "|  " << result_middleInter[i].x << "  ";
+	//}
+	//cout << endl;
+	//for (int i = 0; i < result_middleInter.size() * 8; i++) {
+	//	cout << "-";
+	//}
+	//cout << endl;
+	//for (int i = 0; i < result_middleInter.size(); i++) {
+	//	cout << "| " << result_middleInter[i].f << " ";
+	//}
 
-	for (int i = 0; i < result_middleInter.size(); i++) {
-		cout << "|  " << result_middleInter[i].x << "  ";
+	//cout << endl;
+
+	double **a, *y, *x;
+	int n;
+	system("chcp 1251");
+	system("cls");
+	cout << "Введите количество уравнений: ";
+	cin >> n;
+	a = new double*[n];
+	y = new double[n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			cout << "a[" << i << "][" << j << "]= ";
+			cin >> a[i][j];
+		}
 	}
-	cout << endl;
-	for (int i = 0; i < result_middleInter.size() * 8; i++) {
-		cout << "-";
+	for (int i = 0; i < n; i++)
+	{
+		cout << "y[" << i << "]= ";
+		cin >> y[i];
 	}
-	cout << endl;
-	for (int i = 0; i < result_middleInter.size(); i++) {
-		cout << "| " << result_middleInter[i].f << " ";
-	}
-
-	cout << endl;
+	sysout(a, y, n);
+	x = gauss(a, y, n);
+	for (int i = 0; i < n; i++)
+		cout << "x[" << i << "]=" << x[i] << endl;
+	cin.get(); cin.get();
+	return 0;
 
 	system("pause");
 	return 0;
