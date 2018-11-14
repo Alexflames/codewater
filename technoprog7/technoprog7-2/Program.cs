@@ -12,7 +12,6 @@ namespace technoprog7_2
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите заданную букву: ");
             StreamReader fileIn = new StreamReader("text.txt");
             string text = fileIn.ReadToEnd(); //считываем из файла весь текст
             fileIn.Close();

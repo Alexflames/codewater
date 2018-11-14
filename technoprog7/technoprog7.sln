@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "technoprog7-2", "technoprog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "technoprog7-3", "technoprog7-3\technoprog7-3.csproj", "{B7E56177-B41C-4C64-A04A-023DF2587E86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "technoprog7-3-client", "technoprog7-3-client\technoprog7-3-client.csproj", "{CC0C3502-F902-4117-84E3-7BE340550211}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "technoprog7-thread", "technoprog7-thread\technoprog7-thread.csproj", "{F88E8C90-5EA7-4BD1-81A0-A55E74F4358A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{B7E56177-B41C-4C64-A04A-023DF2587E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7E56177-B41C-4C64-A04A-023DF2587E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7E56177-B41C-4C64-A04A-023DF2587E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0C3502-F902-4117-84E3-7BE340550211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0C3502-F902-4117-84E3-7BE340550211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0C3502-F902-4117-84E3-7BE340550211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0C3502-F902-4117-84E3-7BE340550211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F88E8C90-5EA7-4BD1-81A0-A55E74F4358A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88E8C90-5EA7-4BD1-81A0-A55E74F4358A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88E8C90-5EA7-4BD1-81A0-A55E74F4358A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88E8C90-5EA7-4BD1-81A0-A55E74F4358A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

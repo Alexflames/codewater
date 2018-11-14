@@ -28,8 +28,8 @@ namespace technoprog7
             BinaryReader fIn = new BinaryReader(f);
             long m = f.Length; //определяем количество байт в потоке
                                //Читаем данные из файла t.dat начиная с элемента с номером 1, т.е с 8 байта,
-                               //перемещая внутренний указатель на 16 байт, т.е. на два вещественных числа
-            for (long i = 0; i < m; i += 16)
+                               //перемещая внутренний указатель на 8 байт, т.е. на два числа
+            for (long i = 0; i < m; i += 8)
             {
                 f.Seek(i, SeekOrigin.Begin);
                 n = fIn.ReadInt32();

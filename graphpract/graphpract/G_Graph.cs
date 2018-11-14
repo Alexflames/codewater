@@ -114,9 +114,18 @@ namespace graphpract
 
         #region Методы для работы с графом
 
-        public static void BFS_Visit_Route(G_Graph g_Graph, Node startFrom, 
-            ref Dictionary<Node, Node> toFrom, ref Dictionary<Node, bool> visited,
-            ref Queue<Node> nodesQueue)
+        public static Dictionary<Node, List<KeyValuePair<Node, int>>> FloydShortestRoutes (G_Graph g_Graph)
+        {
+            var ans = new Dictionary<Node, List<KeyValuePair<Node, int>>>();
+
+            return ans;
+        }
+
+        #region отлаженные
+
+        public static void BFS_Visit_Route(G_Graph g_Graph, Node startFrom,
+    ref Dictionary<Node, Node> toFrom, ref Dictionary<Node, bool> visited,
+    ref Queue<Node> nodesQueue)
         {
             foreach (EdgeTo edgeTo in g_Graph.GetGraph()[startFrom])
             {
@@ -151,9 +160,6 @@ namespace graphpract
 
             return toFrom;
         }
-
-
-        #region отлаженные
 
         private static void DFS_Visit(Node visitNode, G_Graph dfsGraph)
         {
@@ -285,6 +291,11 @@ namespace graphpract
             // Первичная инициализация закончена. Начинаем алгоритм
 
             bool anyWhite = true; // true если в результате обхода не одна компонента связности
+            
+            FileStream fs = new FileStream("debug.txt", FileMode.Create);
+
+            Dictionary<Node, List<EdgeTo>> missed = new Dictionary<Node, List<EdgeTo>>();
+            
             while (anyWhite)
             {
                 // Снова инициализация. Все вершины нового графа белые.
@@ -293,7 +304,9 @@ namespace graphpract
                     node.Key.SetColor(Node.Color.WHITE);
                 }
 
-                foreach (var node in resGraph)
+                var searchDict = missed.Count == 0 ? resGraph : missed;
+
+                foreach (var node in searchDict)
                 {
                     List<Node> connectedToThis = new List<Node>();
 
@@ -330,7 +343,12 @@ namespace graphpract
                             // Добавляем минимальное ребро.
                             // Начинаем окрас в черный новой компоненты связности
                             EdgeTo minCopy = new EdgeTo(minEdgeTo, origToCopy[minEdgeTo.GetNodeTo()]);
+                            // Debug-only
+                            byte[] str = Encoding.ASCII
+                                .GetBytes("Added edge from: " + nodeMinEdgeFrom.GetName() + " to " + minCopy.GetNodeTo().GetName() + "\n");
+                            fs.Write(str, 0, str.Length);
                             result.AddEdge(nodeMinEdgeFrom, minCopy);
+                            
                             // Третий аргумент не имеет практического применения, просто окрас
                             DFS_AddToList(origToCopy[minEdgeTo.GetNodeTo()], resGraph, ref connectedToThis);
                             if (connectedToThis.Count + 1 == graph.Count)
@@ -338,9 +356,14 @@ namespace graphpract
                                 return result;
                             }
                         }
+                        else
+                        {
+                            missed.Add(node.Key, node.Value);
+                        }
                     }
                 }
             }
+            fs.Close();
             return result;
         }
 

@@ -21,24 +21,73 @@ namespace technoprog7_3
         static string ReadMessage(NetworkStream stream)
         {
             // Через сокет передается массив байт, который после получения нужно преобразовать в строку. 
-            String data = String.Empty;
-            Byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
+            Byte[] bytes = new Byte[256];
+            String data = null;
             int i = stream.Read(bytes, 0, bytes.Length);
-            return System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+            return System.Text.Encoding.UTF8.GetString(bytes, 0, i);
         }
 
         static void SendMessage(string msg, NetworkStream stream)
         {
+            string[] convertedMsg = msg.Split(' ', '\n');
+            // Преобразуем string-ввод в матрицы
+            int matSize = Convert.ToInt32(convertedMsg[0]);
+            double[][] m1 = new double[matSize][];
+            double[][] m2 = new double[matSize][];
+
+            int msgIt = 1;
+            for (int i = 0; i < matSize; i++)
+            {
+                m1[i] = new double[matSize];
+                for (int j = 0; j < matSize; j++)
+                {
+                    m1[i][j] = Convert.ToDouble(convertedMsg[msgIt]);
+                    msgIt++;
+                }
+            }
+
+            for (int i = 0; i < matSize; i++)
+            {
+                m2[i] = new double[matSize];
+                for (int j = 0; j < matSize; j++)
+                {
+                    m2[i][j] = Convert.ToDouble(convertedMsg[msgIt]);
+                    msgIt++;
+                }
+            }
+            // Производим умножение матриц
+            double[][] matAns = CalcMatrix(m1, m2);
+
+            string retMsg = matSize.ToString();
+            for (int i = 0; i < matSize; i++)
+            {
+                for (int j = 0; j < matSize; j++)
+                {
+                    retMsg += " " + matAns[i][j];
+                }
+            }
             // Перед отправкой через сокет строку необходимо преобразовать в массив байт. 
-            Byte[] bytes = new Byte[256];
-            String data = "text";
-            bytes = System.Text.Encoding.UTF8.GetBytes(data);
+            byte[] bytes = new byte[256];
+            bytes = Encoding.UTF8.GetBytes(retMsg);
             stream.Write(bytes, 0, bytes.Length);
         }
 
         static double[][] CalcMatrix(double [][] m1, double[][] m2)
         {
-            double[][] ans = new double[100][]; //TODO: fix размера
+            double[][] ans = new double[m1.Count()][]; 
+            
+            for (int i = 0; i < ans.Count(); i++)
+            {
+                ans[i] = new double[m2.Count()];
+                for (int j = 0; j < ans[i].Count(); j++)
+                {
+                    ans[i][j] = 0;
+                    for (int k = 0; k < m2.Count(); k++)
+                    {
+                        ans[i][j] += m1[i][k] * m2[k][j];
+                    }
+                }
+            }
 
             return ans;
         }
@@ -46,9 +95,9 @@ namespace technoprog7_3
         static void Main(string[] args)
         {
             WebClient myClient = new WebClient();
-            Console.WriteLine("Введите адрес, с которого надо считать страницу");
-            string url = Console.ReadLine();
-            Stream response = myClient.OpenRead(url);// http://www.binarytable.tk/
+            //Console.WriteLine("Введите адрес, с которого надо считать страницу");
+            //string url = Console.ReadLine();
+            Stream response = myClient.OpenRead("http://www.binarytable.tk/");//  https://github.com/Alexflames/
             // The stream data is used here.
             StreamReader sr = new StreamReader(response);
             string responseStr = sr.ReadToEnd() + "\n";
@@ -79,8 +128,14 @@ namespace technoprog7_3
             // После подключения создается поток входных / выходных сообщений
             NetworkStream stream = client.GetStream();
 
+
+
             string msg = ReadMessage(stream);
             SendMessage(msg, stream);
+
+            Console.ReadKey();
+
+            stream.Close();
         }
     }
 }

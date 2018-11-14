@@ -69,28 +69,26 @@ namespace graphpract
             Console.WriteLine("Открываю файл " + filename);
             mainGraph.WriteToConsole();
 
-            Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");
-            if (mainGraph.IsWeighted() && !mainGraph.IsOriented())
-            {
-                G_Graph minTree = G_Graph.Boruv(mainGraph);
-                minTree.WriteToConsole();
+           
 
-                Node from = mainGraph.GetGraph().Keys.First();
+            //Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");
+            //if (mainGraph.IsWeighted() && !mainGraph.IsOriented())
+            //{
+            //    G_Graph minTree = G_Graph.Boruv(mainGraph);
+            //    minTree.WriteToConsole();
 
-                Dictionary<Node, Node> predVertices =
-                    G_Graph.BFS_Prev(mainGraph, from);
+            //    Node from = mainGraph.GetGraph().Keys.First();
 
-                OutClosestPaths(predVertices, from);
-            }
-            else
-            {
-                Console.WriteLine("Ошибка, нельзя построить каркас" +
-                    ". Граф не взвешенный или ориентированный");
-            }
+            //    Dictionary<Node, Node> predVertices =
+            //        G_Graph.BFS_Prev(mainGraph, from);
 
-
-
-
+            //    OutClosestPaths(predVertices, from);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Ошибка, нельзя построить каркас" +
+            //        ". Граф не взвешенный или ориентированный");
+            //}
 
             //if (mainGraph.IsOriented())
             //{
