@@ -5,3 +5,10 @@ C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technopr
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.csproj.CoreCompileInputs.cache
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.exe
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.pdb
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\bin\Debug\techprog10-1.exe.config
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\bin\Debug\techprog10-1.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\bin\Debug\techprog10-1.pdb
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.csprojAssemblyReference.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.exe
+C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog9\techprog10-1\obj\Debug\techprog10-1.pdb

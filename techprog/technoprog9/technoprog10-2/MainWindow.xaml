@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:technoprog10_2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Тестирование модулей, разработанных для прогрессивной микроволновки будущего" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Grid Background="AliceBlue" Margin="0,0,-91,-31">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="378*"/>
@@ -17,18 +18,55 @@
             <RowDefinition Height="212*"/>
 
         </Grid.RowDefinitions>
-        
+
         <!-- Панель с наименованиями модулей -->
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="45,28,0,0" VerticalAlignment="Top" Width="290">
             <Label Content="Модули, требующие тестирование:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.122,0.283" Width="226"/>
-            <ListBox Height="155"/>
+            <ListBox Height="155" Name="listItems"/>
 
         </StackPanel>
 
-        <!-- Панель описанием модуля -->
+        <!-- Панель с описанием модуля -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="45,24,0,0" VerticalAlignment="Top" Width="303">
             <Label Content="Информация о модуле:"/>
             <TextBlock TextWrapping="Wrap" Text="" Height="147"/>
         </StackPanel>
+        
+        <!-- Панель с действиями над модулями  -->
+        <StackPanel Grid.Column="1" HorizontalAlignment="Left" Height="374" Margin="49.6,46,0,0" VerticalAlignment="Top" Width="400" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap"><Run Text="Выбрать "/><Run Text="модул"/><Run Text="и"/><Run Text=" с уровнем возможных ошибок больше X: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44">
+                <Label Content="X: " Margin="10, 10, 40, 5"/>
+                <TextBox Height="23" Text="50" Width="120"/>
+                <Button Content="Поиск" Width="75" Margin="80, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap"><Run Text="Показать "/><Run Text="модул"/><Run Text="и"/><Run Text=", подходящие под условие: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44">
+                <CheckBox Content="Экспериментальные" Margin="20, 15"/>
+                <Button Content="Поиск" Width="75" Margin="100, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap"><Run Text="Найти "/><Run Text="модул"/><Run Text="и"/><Run Text=" с уровнем важности больше X: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44">
+                <Label Content="X: " Margin="10, 10, 40, 5"/>
+                <Slider Name="SlImportance" Width="120" Margin="0, 10" Minimum="0" Maximum="100" Value="50"> </Slider>
+                <Button Content="Поиск" Width="75" Margin="80, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap"><Run Text="Выбрать "/><Run Text="модул"/><Run Text="ь"/><Run Text=" с наибольшим: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44" >
+                <ComboBox Name="CmbFindOption" Margin="30, 10" Width="170">
+                    <ComboBoxItem Name="Mistake" Content="Уровнем ошибок"/>
+                    <ComboBoxItem Name="DaysPassed" Content="Кол-вом дней в разработке"/>
+                    <ComboBoxItem Name="Importance" Content="Уровнем важности"/>
+                </ComboBox>
+                <Button Content="Поиск" Width="75" Margin="40, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+            </StackPanel>
+
+        </StackPanel>
+
     </Grid>
 </Window>

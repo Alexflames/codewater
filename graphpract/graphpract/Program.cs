@@ -62,6 +62,41 @@ namespace graphpract
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dictToPrint">Словарь:
+        /// Ключ - вершина, значение - все другие вершины с которыми соединена данная
+        /// Они представляются в виде пары - вершина + (предок, вес)
+        /// </param>
+        /// <param name="from">Меняется на каждом шаге</param>
+        /// <param name="to">Неизменный</param>
+        static void PrintRecursivePath(Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>> dictToPrint, Node from, Node to)
+        {
+            Console.Write($"{to.GetName()} ");
+            // Если предок не вершина из которой мы идем, запускаем алгоритм
+            if (dictToPrint[from][to].Key != from) {
+                PrintRecursivePath(dictToPrint, from, dictToPrint[from][to].Key);
+            }
+        }
+        static void PrintAllPairs(Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>> dictToPrint)
+        {
+            foreach (var item in dictToPrint) {
+                Console.WriteLine($"Путь кратчайший путь от вершины {item.Key.GetName()} до: ");
+                // Здесь каждый node = KeyValuePair<Node, KeyValuePair<Node, int>>
+                foreach (var node in item.Value)
+                {
+                    if (item.Key != node.Key)
+                    {
+                        Console.Write(node.Key.GetName() + " - ");
+                        PrintRecursivePath(dictToPrint, item.Key, node.Key);
+                        Console.WriteLine();
+                    }
+                }
+
+            }
+        }
+
         static void Main(string[] args)
         {
             string filename = "input_graph_Grigoriev2.txt";
@@ -69,6 +104,7 @@ namespace graphpract
             Console.WriteLine("Открываю файл " + filename);
             mainGraph.WriteToConsole();
 
+            PrintAllPairs(G_Graph.FloydShortestRoutes(mainGraph));
            
 
             //Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");

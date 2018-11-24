@@ -38,7 +38,7 @@ namespace techprog10_1
             geom = new Geom(GeomS);
             Console.WriteLine(geom(R));
 
-            Console.WriteLine(" Площадь шара ");
+            Console.WriteLine(" Объем шара ");
             geom = new Geom(GeomV);
             Console.WriteLine(geom(R));
         }

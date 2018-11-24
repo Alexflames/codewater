@@ -114,9 +114,44 @@ namespace graphpract
 
         #region Методы для работы с графом
 
-        public static Dictionary<Node, List<KeyValuePair<Node, int>>> FloydShortestRoutes (G_Graph g_Graph)
+        // Задание Веса-б
+        public static Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>>
+            FloydShortestRoutes (G_Graph g_Graph)
         {
-            var ans = new Dictionary<Node, List<KeyValuePair<Node, int>>>();
+            var inputGraph = g_Graph.GetGraph();
+            
+            var ans = new Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>>();
+            // инициализация структуры данных - результата
+            foreach (Node node in inputGraph.Keys)
+            {
+                ans.Add(node, new Dictionary<Node, KeyValuePair<Node, int>>());
+                foreach (Node node2 in inputGraph.Keys)
+                {
+                    ans[node].Add(node2, new KeyValuePair<Node, int>(node, int.MaxValue));
+                }
+
+                foreach (EdgeTo edge in inputGraph[node])
+                {
+                    ans[node][edge.GetNodeTo()] = new KeyValuePair<Node, int>(node, edge.GetWeight());
+                }
+            }
+
+            // Внутренняя логика алгоритма
+            foreach (Node node1 in inputGraph.Keys)
+            {
+                foreach (Node node2 in inputGraph.Keys)
+                {
+                    foreach (Node node3 in inputGraph.Keys)
+                    {
+                        if (ans[node2][node1].Value != int.MaxValue && ans[node1][node3].Value != int.MaxValue &&
+                            ans[node2][node1].Value + ans[node1][node3].Value < ans[node2][node3].Value)
+                        {
+                            ans[node2][node3] = new KeyValuePair<Node, int>(node1, ans[node2][node1].Value + ans[node1][node3].Value);
+                            ans[node3][node2] = new KeyValuePair<Node, int>(node1, ans[node2][node1].Value + ans[node1][node3].Value);
+                        }
+                    }
+                }
+            }
 
             return ans;
         }
