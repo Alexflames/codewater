@@ -17,9 +17,9 @@ namespace graphpract
                 string[] data = Console.ReadLine().Split(new char[] { ' ', '\n', '\t' },
                                     StringSplitOptions.RemoveEmptyEntries);
                 if (data[0].ToLower() == "end") return false;
-                
+
                 workGraph.GraphActions(data[0]);
-                
+
 
             }
             catch (Exception e)
@@ -62,6 +62,15 @@ namespace graphpract
             }
         }
 
+        static void PrintPathFromTo(Dictionary<Node, KeyValuePair<Node, int>> dictToPrint, Node from, Node to) {
+            if (to != from)
+            {
+                //PrintRecursivePath(dictToPrint, dictToPrint[from][to].Key, to);
+                PrintPathFromTo(dictToPrint, from, dictToPrint[to].Key);
+            }
+            Console.Write($"{to.GetName()} ");
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -73,11 +82,12 @@ namespace graphpract
         /// <param name="to">Неизменный</param>
         static void PrintRecursivePath(Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>> dictToPrint, Node from, Node to)
         {
-            Console.Write($"{to.GetName()} ");
             // Если предок не вершина из которой мы идем, запускаем алгоритм
-            if (dictToPrint[from][to].Key != from) {
+            if (to != from) {
+                //PrintRecursivePath(dictToPrint, dictToPrint[from][to].Key, to);
                 PrintRecursivePath(dictToPrint, from, dictToPrint[from][to].Key);
             }
+            Console.Write($"{to.GetName()} ");
         }
         static void PrintAllPairs(Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>> dictToPrint)
         {
@@ -88,12 +98,62 @@ namespace graphpract
                 {
                     if (item.Key != node.Key)
                     {
-                        Console.Write(node.Key.GetName() + " - ");
+                        Console.Write(node.Key.GetName() + $"(w{dictToPrint[item.Key][node.Key].Value}) - ");
                         PrintRecursivePath(dictToPrint, item.Key, node.Key);
                         Console.WriteLine();
                     }
                 }
 
+            }
+        }
+
+        static void StartDijkstra(G_Graph g_Graph, string fromNum, string toNum)
+        {
+            Console.WriteLine($"Нахождение кратчайшего пути из вершины {fromNum} в {toNum} с помощью алгоритма Дейкстры");
+            Node from = null, to = null;
+            foreach (Node node in g_Graph.GetGraph().Keys)
+            {
+                if (node.GetName() == fromNum)
+                {
+                    from = node;
+                }
+
+                else if (node.GetName() == toNum)
+                {
+                    to = node;
+                }
+            }
+
+            if (from != null && to != null)
+            {
+                PrintPathFromTo(
+                    G_Graph.DijkstraShortestFromNode(from, g_Graph),
+                    from, to);
+            }
+        }
+
+        static void StartFordBellman(G_Graph g_Graph, string fromNum)
+        {
+            Console.WriteLine($"Нахождение кратчайшех путей из вершины {fromNum} с помощью алгоритма Форда-Беллмана");
+            Node from = null;
+            foreach (Node node in g_Graph.GetGraph().Keys)
+            {
+                if (node.GetName() == fromNum)
+                {
+                    from = node;
+                }
+            }
+
+            foreach (Node to in g_Graph.GetGraph().Keys)
+            {
+                if (to != from)
+                {
+                    Console.Write($"до вершины {to.GetName()}: ");
+                    PrintPathFromTo(
+                        G_Graph.FordBellmanShortestFromNode(from, g_Graph),
+                        from, to);
+                    Console.WriteLine();
+                }
             }
         }
 
@@ -104,8 +164,11 @@ namespace graphpract
             Console.WriteLine("Открываю файл " + filename);
             mainGraph.WriteToConsole();
 
-            PrintAllPairs(G_Graph.FloydShortestRoutes(mainGraph));
-           
+            //PrintAllPairs(G_Graph.FloydShortestRoutes(mainGraph));
+
+            //StartDijkstra(mainGraph, "8", "1");
+
+            StartFordBellman(mainGraph, "8");
 
             //Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");
             //if (mainGraph.IsWeighted() && !mainGraph.IsOriented())

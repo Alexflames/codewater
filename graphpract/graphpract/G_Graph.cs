@@ -114,12 +114,114 @@ namespace graphpract
 
         #region Методы для работы с графом
 
+        public static Dictionary<Node, KeyValuePair<Node, int>> FordBellmanShortestFromNode(Node root, G_Graph g_Graph)
+        {
+            var ans = new Dictionary<Node, KeyValuePair<Node, int>>();
+            var graph = g_Graph.GetGraph();
+
+            // Граф в виде списка ребер
+            var edges = new List<KeyValuePair<Node, EdgeTo>>();
+            foreach (Node from in graph.Keys)
+            {
+                foreach (EdgeTo edge in graph[from])
+                {
+                    edges.Add(new KeyValuePair<Node, EdgeTo>(from, edge));
+                }
+            }
+
+            foreach (Node node in graph.Keys)
+            {
+                ans.Add(node, new KeyValuePair<Node, int>(null, int.MaxValue));
+            }
+
+            foreach (EdgeTo edge in graph[root])
+            {
+                ans[edge.GetNodeTo()] = new KeyValuePair<Node, int>(root, edge.GetWeight());
+            }
+
+            bool pos = false;
+            for (int i = 0; i < graph.Count; i++)
+            {
+                pos = false;
+                for (int j = 0; j < edges.Count; j++)
+                {
+                    if (ans[edges[j].Key].Value < int.MaxValue)
+                    {
+                        if (ans[edges[j].Value.GetNodeTo()].Value >
+                            ans[edges[j].Key].Value + edges[j].Value.GetWeight())
+                        {
+                            // Максимум?
+                            ans[edges[j].Value.GetNodeTo()] =
+                                new KeyValuePair<Node, int>(
+                                    edges[j].Key,
+                                    ans[edges[j].Key].Value + edges[j].Value.GetWeight());
+                            pos = true;
+                        }
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+        #region отлаженные
+
+        // Задание Веса-а
+        public static Dictionary<Node, KeyValuePair<Node, int>> DijkstraShortestFromNode(Node root, G_Graph g_Graph)
+        {
+            var ans = new Dictionary<Node, KeyValuePair<Node, int>>();
+            var used = new Dictionary<Node, bool>();
+            var graph = g_Graph.GetGraph();
+
+            // Первичная инициализация
+            foreach (Node node in graph.Keys)
+            {
+                ans.Add(node, new KeyValuePair<Node, int>(null, int.MaxValue));
+                used.Add(node, false);
+            }
+
+            foreach (EdgeTo edge in graph[root])
+            {
+                ans[edge.GetNodeTo()] = new KeyValuePair<Node, int>(root, edge.GetWeight());
+            }
+
+            for (int i = 0; i < graph.Count; i++)
+            {
+                Node v = null;
+                // Нахождение вершины с минимальным расстоянием
+                foreach (Node node in graph.Keys)
+                {
+                    if (!used[node] && (v == null || ans[node].Value < ans[v].Value))
+                    {
+                        v = node;
+                    }
+                }
+
+                if (ans[v].Value == int.MaxValue)
+                {
+                    break;
+                }
+                used[v] = true;
+
+                foreach (EdgeTo edge in graph[v])
+                {
+                    if (ans[v].Value + edge.GetWeight() < ans[edge.GetNodeTo()].Value)
+                    {
+                        ans[edge.GetNodeTo()] = new KeyValuePair<Node, int>(v, ans[v].Value + edge.GetWeight());
+                    }
+                }
+            }
+
+            return ans;
+        }
+
         // Задание Веса-б
         public static Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>>
-            FloydShortestRoutes (G_Graph g_Graph)
+            FloydShortestRoutes(G_Graph g_Graph)
         {
+
             var inputGraph = g_Graph.GetGraph();
-            
+
             var ans = new Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>>();
             // инициализация структуры данных - результата
             foreach (Node node in inputGraph.Keys)
@@ -146,8 +248,8 @@ namespace graphpract
                         if (ans[node2][node1].Value != int.MaxValue && ans[node1][node3].Value != int.MaxValue &&
                             ans[node2][node1].Value + ans[node1][node3].Value < ans[node2][node3].Value)
                         {
-                            ans[node2][node3] = new KeyValuePair<Node, int>(node1, ans[node2][node1].Value + ans[node1][node3].Value);
-                            ans[node3][node2] = new KeyValuePair<Node, int>(node1, ans[node2][node1].Value + ans[node1][node3].Value);
+                            ans[node2][node3] = new KeyValuePair<Node, int>(ans[node1][node3].Key, ans[node2][node1].Value + ans[node1][node3].Value);
+                            ans[node3][node2] = new KeyValuePair<Node, int>(ans[node1][node2].Key, ans[node2][node1].Value + ans[node1][node3].Value);
                         }
                     }
                 }
@@ -155,8 +257,6 @@ namespace graphpract
 
             return ans;
         }
-
-        #region отлаженные
 
         public static void BFS_Visit_Route(G_Graph g_Graph, Node startFrom,
     ref Dictionary<Node, Node> toFrom, ref Dictionary<Node, bool> visited,

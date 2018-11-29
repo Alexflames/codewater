@@ -307,65 +307,86 @@ double * gauss(double **a, double *y, int n)
 	return x;
 }
 
+void startInterpolation() {
+    //vector <funValue> part_sums = (*CalcSinPartSums(-3, 3, 2));
+
+    // все 'x' и 'f' из дано ТУТ
+    //vector <funValue> power3;
+    //funValue temp = { 1, 1 };
+    //power3.push_back(temp);
+    //temp = { 2, 8 };
+    //power3.push_back(temp);
+    //temp = { 3, 27 };
+    //power3.push_back(temp);
+    //temp = { 4, 64 };
+    //power3.push_back(temp);
+
+    //vector <funValue> result_middleInter = CalcNewton(&power3);
+
+    //for (int i = 0; i < result_middleInter.size(); i++) {
+    //	cout << "|  " << result_middleInter[i].x << "  ";
+    //}
+    //cout << endl;
+    //for (int i = 0; i < result_middleInter.size() * 8; i++) {
+    //	cout << "-";
+    //}
+    //cout << endl;
+    //for (int i = 0; i < result_middleInter.size(); i++) {
+    //	cout << "| " << result_middleInter[i].f << " ";
+    //}
+
+    //cout << endl;
+}
+
+void startGauss() {
+    double **a, *y, *x;
+    int n;
+    system("chcp 1251");
+    system("cls");
+    cout << "Введите количество уравнений: ";
+    cin >> n;
+    a = new double*[n];
+    y = new double[n];
+    for (int i = 0; i < n; i++)
+    {
+        a[i] = new double[n];
+        for (int j = 0; j < n; j++)
+        {
+            cout << "a[" << i << "][" << j << "]= ";
+            cin >> a[i][j];
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cout << "y[" << i << "]= ";
+        cin >> y[i];
+    }
+    sysout(a, y, n);
+    x = gauss(a, y, n);
+    for (int i = 0; i < n; i++)
+        cout << "x[" << i << "]=" << x[i] << endl;
+    cin.get(); cin.get();
+}
+
+// Функция задана вручную
+void methodCoushi(double from, double to, double step, int V) {
+    int n = (int)((to - from) / step);
+    // Значения x
+    double * x = new double[n];
+    double * yt = new double[n];
+    double * ym = new double[n];
+    double * e = new double[n];
+    for (int i = 0; from < to + step / 2; from += step) {
+        x[i] = from;
+        yt[i] = 1 * x[i] * x[i] * x[i] + 1 * x[i] + 5;
+        //ym[i] = 3 * V * x[i] * x[i] + 
+        e[i] = abs(yt[i] - ym[i]);
+        i++;
+    }
+}
+
 int main() {
-	//vector <funValue> part_sums = (*CalcSinPartSums(-3, 3, 2));
-
-	// все 'x' и 'f' из дано ТУТ
-	//vector <funValue> power3;
-	//funValue temp = { 1, 1 };
-	//power3.push_back(temp);
-	//temp = { 2, 8 };
-	//power3.push_back(temp);
-	//temp = { 3, 27 };
-	//power3.push_back(temp);
-	//temp = { 4, 64 };
-	//power3.push_back(temp);
-
-	//vector <funValue> result_middleInter = CalcNewton(&power3);
-
-	//for (int i = 0; i < result_middleInter.size(); i++) {
-	//	cout << "|  " << result_middleInter[i].x << "  ";
-	//}
-	//cout << endl;
-	//for (int i = 0; i < result_middleInter.size() * 8; i++) {
-	//	cout << "-";
-	//}
-	//cout << endl;
-	//for (int i = 0; i < result_middleInter.size(); i++) {
-	//	cout << "| " << result_middleInter[i].f << " ";
-	//}
-
-	//cout << endl;
-
-	double **a, *y, *x;
-	int n;
-	system("chcp 1251");
-	system("cls");
-	cout << "Введите количество уравнений: ";
-	cin >> n;
-	a = new double*[n];
-	y = new double[n];
-	for (int i = 0; i < n; i++)
-	{
-		a[i] = new double[n];
-		for (int j = 0; j < n; j++)
-		{
-			cout << "a[" << i << "][" << j << "]= ";
-			cin >> a[i][j];
-		}
-	}
-	for (int i = 0; i < n; i++)
-	{
-		cout << "y[" << i << "]= ";
-		cin >> y[i];
-	}
-	sysout(a, y, n);
-	x = gauss(a, y, n);
-	for (int i = 0; i < n; i++)
-		cout << "x[" << i << "]=" << x[i] << endl;
-	cin.get(); cin.get();
-	return 0;
-
+	
 	system("pause");
 	return 0;
 }

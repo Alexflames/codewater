@@ -1,0 +1,15 @@
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\bin\Debug\technoprog10-2.exe.config
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\bin\Debug\technoprog10-2.exe
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\bin\Debug\technoprog10-2.pdb
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.csprojAssemblyReference.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\MainWindow.g.cs
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\App.g.cs
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2_MarkupCompile.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2_MarkupCompile.lref
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\MainWindow.baml
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.g.resources
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10_2.Properties.Resources.resources
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.csproj.GenerateResource.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.csproj.CoreCompileInputs.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.exe
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\technoprog10-2\obj\Debug\technoprog10-2.pdb

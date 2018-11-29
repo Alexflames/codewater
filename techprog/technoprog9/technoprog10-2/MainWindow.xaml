@@ -22,14 +22,14 @@
         <!-- Панель с наименованиями модулей -->
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="45,28,0,0" VerticalAlignment="Top" Width="290">
             <Label Content="Модули, требующие тестирование:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.122,0.283" Width="226"/>
-            <ListBox Height="155" Name="listItems"/>
+            <ListBox Height="155" Name="listItems" SelectionChanged="listItems_SelectionChanged"/>
 
         </StackPanel>
 
         <!-- Панель с описанием модуля -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="45,24,0,0" VerticalAlignment="Top" Width="303">
             <Label Content="Информация о модуле:"/>
-            <TextBlock TextWrapping="Wrap" Text="" Height="147"/>
+            <TextBlock TextWrapping="Wrap" Text="" Height="147" Name="txtModuleDesc"/>
         </StackPanel>
         
         <!-- Панель с действиями над модулями  -->
@@ -37,22 +37,22 @@
             <TextBlock TextWrapping="Wrap"><Run Text="Выбрать "/><Run Text="модул"/><Run Text="и"/><Run Text=" с уровнем возможных ошибок больше X: "/></TextBlock>
             <StackPanel Orientation="Horizontal" Height="44">
                 <Label Content="X: " Margin="10, 10, 40, 5"/>
-                <TextBox Height="23" Text="50" Width="120"/>
-                <Button Content="Поиск" Width="75" Margin="80, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                <TextBox Height="23" Text="50" Width="120" Name="txtErrorFullness"/>
+                <Button Content="Поиск" Width="75" Margin="80, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click"/>
             </StackPanel>
 
             <TextBlock TextWrapping="Wrap"><Run Text="Показать "/><Run Text="модул"/><Run Text="и"/><Run Text=", подходящие под условие: "/></TextBlock>
             <StackPanel Orientation="Horizontal" Height="44">
-                <CheckBox Content="Экспериментальные" Margin="20, 15"/>
-                <Button Content="Поиск" Width="75" Margin="100, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                <CheckBox Content="Экспериментальные" Margin="20, 15" Name="checkExperimental"/>
+                <Button Content="Поиск" Width="75" Margin="100, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_1"/>
                 
             </StackPanel>
 
             <TextBlock TextWrapping="Wrap"><Run Text="Найти "/><Run Text="модул"/><Run Text="и"/><Run Text=" с уровнем важности больше X: "/></TextBlock>
             <StackPanel Orientation="Horizontal" Height="44">
-                <Label Content="X: " Margin="10, 10, 40, 5"/>
-                <Slider Name="SlImportance" Width="120" Margin="0, 10" Minimum="0" Maximum="100" Value="50"> </Slider>
-                <Button Content="Поиск" Width="75" Margin="80, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                <Label Content=" X: " Margin="10, 10, 40, 5" Name="lblSlImportance"/>
+                <Slider Name="SlImportance" Width="120" Margin="0, 10" Minimum="0" Maximum="100" Value="50" ValueChanged="SlImportance_ValueChanged"> </Slider>
+                <Button Content="Поиск" Width="75" Margin="60, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_2"/>
                 
             </StackPanel>
 
@@ -63,9 +63,20 @@
                     <ComboBoxItem Name="DaysPassed" Content="Кол-вом дней в разработке"/>
                     <ComboBoxItem Name="Importance" Content="Уровнем важности"/>
                 </ComboBox>
-                <Button Content="Поиск" Width="75" Margin="40, 10, 40, 10" RenderTransformOrigin="1.224,0.541"/>
+                <Button Content="Поиск" Width="75" Margin="40, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_3"/>
             </StackPanel>
 
+            <TextBlock TextWrapping="Wrap"><Run Text="Действия над данными - XML: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44">
+                <Button Content="Сериализовать" Width="105" Margin="60, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_4"/>
+                <Button Content="Десериализовать" Width="105" Margin="20, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_5"/>
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap"><Run Text="Действия над данными - JSON: "/></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="44">
+                <Button Content="Сериализовать" Width="105" Margin="60, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_6"/>
+                <Button Content="Десериализовать" Width="105" Margin="20, 10, 40, 10" RenderTransformOrigin="1.224,0.541" Click="Button_Click_7"/>
+            </StackPanel>
         </StackPanel>
 
     </Grid>

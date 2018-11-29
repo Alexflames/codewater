@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUntestedModule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UntestedModule>
+    <Name>Баклажан с ИИ</Name>
+    <DaysInProgress>15</DaysInProgress>
+    <Weight>273</Weight>
+    <Importance>40</Importance>
+    <IsExperimental>true</IsExperimental>
+  </UntestedModule>
+  <UntestedModule>
+    <Name>Экстренное самоуничтожение</Name>
+    <DaysInProgress>65</DaysInProgress>
+    <Weight>73485</Weight>
+    <Importance>10</Importance>
+    <IsExperimental>true</IsExperimental>
+  </UntestedModule>
+  <UntestedModule>
+    <Name>Лабораторная №10 по ТП</Name>
+    <DaysInProgress>3</DaysInProgress>
+    <Weight>400</Weight>
+    <Importance>85</Importance>
+    <IsExperimental>false</IsExperimental>
+  </UntestedModule>
+  <UntestedModule>
+    <Name>Разогрев пищи</Name>
+    <DaysInProgress>1</DaysInProgress>
+    <Weight>500</Weight>
+    <Importance>55</Importance>
+    <IsExperimental>false</IsExperimental>
+  </UntestedModule>
+</ArrayOfUntestedModule>

@@ -1,0 +1,150 @@
+        private static bool DFS_Visit_Boruv(Node visitNode, G_Graph dfsGraph, out EdgeTo minEdgeTo)
+        {
+            visitNode.SetColor(Node.Color.GREY);
+
+            var graph = dfsGraph.GetGraph();
+            minEdgeTo = graph[visitNode].First();
+
+            foreach (EdgeTo edge in graph[visitNode])
+            {
+                if (edge.GetNodeTo().GetColor() == Node.Color.BLACK)
+                {
+                    visitNode.SetColor(Node.Color.BLACK);
+                    return false;
+                }
+                if (edge.GetNodeTo().GetColor() == Node.Color.WHITE)
+                {
+                    if (edge.GetWeight() < minEdgeTo.GetWeight())
+                    {
+                        minEdgeTo = edge;
+                    }
+                    DFS_Visit_Boruv(edge.GetNodeTo(), dfsGraph, out EdgeTo minEdge);
+                    if(minEdge.GetWeight() < minEdgeTo.GetWeight())
+                    {
+                        minEdgeTo = minEdge;
+                    }
+                }
+            }
+            visitNode.SetColor(Node.Color.BLACK);
+            return true;
+        }
+
+        private static void DFS_AddToList(Node visitNode,
+            Dictionary<Node, List<EdgeTo>> graph, ref List<Node> blackNodes)
+        {
+            visitNode.SetColor(Node.Color.GREY);
+
+            foreach (EdgeTo edge in graph[visitNode])
+            {
+                if (edge.GetNodeTo().GetColor() == Node.Color.WHITE)
+                {
+                    DFS_AddToList(edge.GetNodeTo(), graph, ref blackNodes);    
+                }
+            }
+            visitNode.SetColor(Node.Color.BLACK);
+            blackNodes.Add(visitNode);
+        }
+
+        public static G_Graph Boruv(G_Graph DFSgraph)
+        {
+            var graph = DFSgraph.GetGraph();
+            DFS_Init(graph.Keys);
+
+            // Создаем копию графа
+            G_Graph result = new G_Graph(DFSgraph, GraphCopyMode.VERTEX_ONLY);
+            var resGraph = result.GetGraph();
+
+            // Устанавливаем связь между копией и исходным графом
+            List<Node> copyNodes = new List<Node>();
+            Dictionary<Node, Node> copyToOrig = new Dictionary<Node, Node>();
+            Dictionary<Node, Node> origToCopy = new Dictionary<Node, Node>();
+            foreach (var node in resGraph)
+            {
+                copyNodes.Add(node.Key);
+            }
+            int it = 0;
+            foreach (var node in graph)
+            {
+                copyToOrig.Add(copyNodes[it], node.Key);
+                origToCopy.Add(node.Key, copyNodes[it]);
+                it++;
+            }
+
+            // Первичная инициализация закончена. Начинаем алгоритм
+
+            bool anyWhite = true; // true если в результате обхода не одна компонента связности
+            
+            FileStream fs = new FileStream("debug.txt", FileMode.Create);
+
+            Dictionary<Node, List<EdgeTo>> missed = new Dictionary<Node, List<EdgeTo>>();
+            
+            while (anyWhite)
+            {
+                // Снова инициализация. Все вершины нового графа белые.
+                foreach (var node in resGraph)
+                {
+                    node.Key.SetColor(Node.Color.WHITE);
+                }
+
+                var searchDict = missed.Count == 0 ? resGraph : missed;
+
+                foreach (var node in searchDict)
+                {
+                    List<Node> connectedToThis = new List<Node>();
+
+                    // Находим вершины в данной компоненте связности
+                    if (node.Key.GetColor() == Node.Color.WHITE)
+                    {
+                        DFS_AddToList(node.Key, resGraph, ref connectedToThis);
+
+                        // Если компонента связности - граф
+                        if (connectedToThis.Count == graph.Count)
+                        {
+                            return result;
+                        }
+
+                        // Ищем минимальное ребро от черных вершин до нечерных
+                        Node nodeMinEdgeFrom = null; EdgeTo minEdgeTo = null; int minEdgeToValue = int.MaxValue;
+                        foreach (Node connectedNode in connectedToThis)
+                        {
+                            // Берем аналог из основного графа
+                            Node analogueNode = copyToOrig[connectedNode];
+                            foreach (EdgeTo edge in graph[analogueNode])
+                            {
+                                if (origToCopy[edge.GetNodeTo()].GetColor() == Node.Color.WHITE &&
+                                    edge.GetWeight() < minEdgeToValue)
+                                {
+                                    minEdgeTo = edge;
+                                    minEdgeToValue = edge.GetWeight();
+                                    nodeMinEdgeFrom = connectedNode;
+                                }
+                            }
+                        }
+                        if (minEdgeTo != null)
+                        {
+                            // Добавляем минимальное ребро.
+                            // Начинаем окрас в черный новой компоненты связности
+                            EdgeTo minCopy = new EdgeTo(minEdgeTo, origToCopy[minEdgeTo.GetNodeTo()]);
+                            // Debug-only
+                            byte[] str = Encoding.ASCII
+                                .GetBytes("Added edge from: " + nodeMinEdgeFrom.GetName() + " to " + minCopy.GetNodeTo().GetName() + "\n");
+                            fs.Write(str, 0, str.Length);
+                            result.AddEdge(nodeMinEdgeFrom, minCopy);
+                            
+                            // Третий аргумент не имеет практического применения, просто окрас
+                            DFS_AddToList(origToCopy[minEdgeTo.GetNodeTo()], resGraph, ref connectedToThis);
+                            if (connectedToThis.Count + 1 == graph.Count)
+                            {
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            missed.Add(node.Key, node.Value);
+                        }
+                    }
+                }
+            }
+            fs.Close();
+            return result;
+        }
