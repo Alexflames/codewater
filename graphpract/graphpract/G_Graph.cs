@@ -57,6 +57,13 @@ namespace graphpract
             m_weight = weight;
         }
 
+        public EdgeTo(Node to, int capacity, int flow)
+        {
+            m_nodeTo = to;
+            this.capacity = capacity;
+            this.flow = flow;
+        }
+
         public EdgeTo(EdgeTo edgeTo, Node nodeTo)
         {
             m_nodeTo = nodeTo;
@@ -77,6 +84,8 @@ namespace graphpract
         {
             EdgeTo copy = new EdgeTo(m_nodeTo);
             copy.SetWeight(m_weight);
+            copy.flow = flow;
+            copy.capacity = capacity;
             return copy;
         }
 
@@ -87,6 +96,8 @@ namespace graphpract
 
         private Node m_nodeTo;
         private int m_weight;
+        public int capacity = 0; // пропускная способность c(u, v) >= 0
+        public int flow = 0;     // поток f(u, v)
     }
 
     class G_Graph
@@ -104,6 +115,7 @@ namespace graphpract
         private Dictionary<Node, List<EdgeTo>> m_graph;
         private bool m_oriented = false;
         private bool m_weighted = false;
+        private bool m_network = false;
 
         // Поля для взаимодействия с несколькими графами
         private string m_graphName;
@@ -112,8 +124,137 @@ namespace graphpract
 
         private InputMode m_inputMode = InputMode.NONE;
 
-        #region Методы для работы с графом
+        public Node source { get; set; }
+        public Node sink { get; set; }
 
+        #region Методы для работы с графом
+        // Работа с потоками
+
+        private int FindLowestCapacity(Dictionary<Node, Node> preds)
+        {
+            var lowestCapacity = int.MaxValue;
+            var curNode = sink;
+            while (curNode != source)
+            {
+                // Поиск ребра от текущей вершины до предыдущей
+                var edge = this.m_graph[curNode].Find(x => x.GetNodeTo() == curNode);
+                // В случае обратного ребра
+                if (lowestCapacity < 0)
+                {
+                    lowestCapacity = edge.flow < lowestCapacity ? edge.flow : lowestCapacity;
+                }
+                // В случае положительного ребра
+                else
+                {
+                    lowestCapacity = edge.capacity < lowestCapacity ? edge.capacity : lowestCapacity;
+                }
+                curNode = preds[curNode];
+            }
+
+            return lowestCapacity;
+        }        
+
+        public void NetworkEdmondsKarp()
+        {
+            var graph = m_graph;
+
+            // обнуляем потоки
+            foreach (var node in graph.Keys)
+            {
+                foreach (var edge in graph[node])
+                {
+                    edge.flow = 0; 
+                }
+            }
+
+            int minC = 1;
+            while (minC != 0)
+            {
+                var paths = BFS_Prev(this, this.source);
+                var lowestCapacity = FindLowestCapacity(paths);
+
+            }
+
+            
+        }
+
+        #region отлаженные
+
+        Dictionary<int, Node> nodesProjectionTo;
+        Dictionary<Node, int> nodesProjectionFrom;
+        int[,] g = new int[20, 20];
+        private void CreateProjectionToMatrix()
+        {
+            int i = 0;
+            nodesProjectionFrom = new Dictionary<Node, int>();
+            nodesProjectionTo = new Dictionary<int, Node>();
+            foreach (Node node in m_graph.Keys)
+            {
+                nodesProjectionTo.Add(i, node);
+                nodesProjectionFrom.Add(node, i);
+                i++;
+            }
+
+            foreach (var item in m_graph)
+            {
+                foreach (var node in item.Value)
+                {
+                    g[nodesProjectionFrom[item.Key], nodesProjectionFrom[node.GetNodeTo()]] = 1;
+                }
+            }
+        }
+
+        // Набор вспомогательных структур данных для поиска мостов в графе
+        // int[] g; // 
+        const int M_SIZE = 20;
+        bool[] used = new bool[M_SIZE];
+        int timer;
+        int[] tin = new int[M_SIZE];
+        int[] fup = new int[M_SIZE];
+
+        private void dfs_Bridges(int v, int p = -1)
+        {
+            used[v] = true;
+            tin[v] = fup[v] = timer;
+            timer++;
+            for (int i = 0; i < m_graph.Count; i++)
+            {
+                if (g[v, i] == 0) continue;
+
+                int to = i;
+                if (to == p) continue;
+                if (used[to])
+                    fup[v] = fup[v] < tin[to] ? fup[v] : tin[to];
+                else
+                {
+                    dfs_Bridges(to, v);
+                    fup[v] = fup[v] < fup[to] ? fup[v] : fup[to];
+                    if (fup[to] > tin[v])
+                    {
+                        // Действие при нахождение моста
+                        Console.WriteLine($"Найден мост - ребро из {v + 1} в {to + 1}");
+                    }
+                }
+            }
+
+        }
+
+        public void Find_bridges()
+        {
+            CreateProjectionToMatrix();
+
+            timer = 0;
+            for (int i = 0; i < m_graph.Count; i++)
+            {
+                used[i] = false;
+            }
+            for (int i = 0; i < m_graph.Count; i++)
+            {
+                if (!used[i]) dfs_Bridges(i);
+            }
+        }
+
+        // Задание Веса-в: Все кратчайшие пути из вершины u
         public static Dictionary<Node, KeyValuePair<Node, int>> FordBellmanShortestFromNode(Node root, G_Graph g_Graph)
         {
             var ans = new Dictionary<Node, KeyValuePair<Node, int>>();
@@ -139,10 +280,10 @@ namespace graphpract
                 ans[edge.GetNodeTo()] = new KeyValuePair<Node, int>(root, edge.GetWeight());
             }
 
-            bool pos = false;
+            bool pos = true;
             for (int i = 0; i < graph.Count; i++)
             {
-                pos = false;
+                pos = true;
                 for (int j = 0; j < edges.Count; j++)
                 {
                     if (ans[edges[j].Key].Value < int.MaxValue)
@@ -150,23 +291,21 @@ namespace graphpract
                         if (ans[edges[j].Value.GetNodeTo()].Value >
                             ans[edges[j].Key].Value + edges[j].Value.GetWeight())
                         {
-                            // Максимум?
                             ans[edges[j].Value.GetNodeTo()] =
                                 new KeyValuePair<Node, int>(
                                     edges[j].Key,
                                     ans[edges[j].Key].Value + edges[j].Value.GetWeight());
-                            pos = true;
+                            pos = false;
                         }
                     }
                 }
             }
-
+            if (!pos)
+                Console.WriteLine("Найден отрицательный цикл.");
             return ans;
         }
 
-        #region отлаженные
-
-        // Задание Веса-а
+        // Задание Веса-а: кратчайший путь из вершины u до вершины v
         public static Dictionary<Node, KeyValuePair<Node, int>> DijkstraShortestFromNode(Node root, G_Graph g_Graph)
         {
             var ans = new Dictionary<Node, KeyValuePair<Node, int>>();
@@ -215,7 +354,7 @@ namespace graphpract
             return ans;
         }
 
-        // Задание Веса-б
+        // Задание Веса-б: кратчайшие пути для всех пар вершин.
         public static Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>>
             FloydShortestRoutes(G_Graph g_Graph)
         {
@@ -546,6 +685,11 @@ namespace graphpract
                 EdgeTo back = new EdgeTo(node);
                 if (IsWeighted())
                     back.SetWeight(edge.GetWeight());
+                else if (m_network)
+                {
+                    back.capacity = -edge.capacity;
+                    back.flow = edge.flow;
+                }
                 m_graph[edge.GetNodeTo()].Add(back);
             }
         }
@@ -610,6 +754,10 @@ namespace graphpract
             if (m_oriented)
             {
                 Console.Write("ориентированный ");
+            }
+            else if (m_network)
+            {
+                Console.Write("сеть");
             }
             else
             {
@@ -730,6 +878,9 @@ namespace graphpract
                     case "weight":
                         m_weighted = true;
                         break;
+                    case "network":
+                        m_network = true;
+                        break;
                     default:
                         Console.WriteLine("Настройка " + item + " не найдена");
                         break;
@@ -814,7 +965,6 @@ namespace graphpract
                     Node nodeCopy = new Node(node.Key);
                     InsertNode(nodeCopy);
                     m_oriented = true; // Важно для полного копирования ребер
-
                 }
 
                 m_oriented = true; // Важно для полного копирования ребер
@@ -827,11 +977,15 @@ namespace graphpract
                         EdgeTo edgeCopy = new EdgeTo(edge, nodeToCopy);
                         AddEdge(nodeFrom, edgeCopy);
                     }
-
                 }
                 
                 SetOriented(graph.IsOriented());
                 SetWeighted(graph.IsWeighted());
+                // Для сети /////////
+                this.m_network = graph.m_network;
+                source = graph.source;
+                sink = graph.sink;
+                /////////////////////
                 Console.WriteLine("Создана копия графа");
             }
 
@@ -954,6 +1108,9 @@ namespace graphpract
                             case ("name"):
                                 SetName(input[1]);
                                 break;
+                            case "network":
+                                m_network = true;
+                                break;
                             default:
                                 Console.WriteLine("ERROR: NO SUCH OPTION " + item + " FOUND");
                                 break;
@@ -977,6 +1134,14 @@ namespace graphpract
                     // Переделать, проходя по подпоследовательности определяя свойства
                     if (input.Length == 3 && input[2][0] == 'w')
                         AddEdge(nodeToAddEdges, new EdgeTo(nodeConnectTo, Int32.Parse(input[2].Substring(1))));
+                    else if (input.Length == 4 && input[2][0] == 'c' && input[3][0] == 'f')
+                    {
+                        AddEdge(nodeToAddEdges, 
+                            new EdgeTo(
+                                nodeConnectTo, 
+                                Int32.Parse(input[2].Substring(1)),
+                                Int32.Parse(input[3].Substring(1))));
+                    }
                     else
                         AddEdge(nodeToAddEdges, new EdgeTo(nodeConnectTo));
 
@@ -1009,6 +1174,18 @@ namespace graphpract
                                 SearchNodeByName(input[1], out Node from);
                                 SearchNodeByName(input[2], out Node to);
                                 DeleteEdgeFromTo(from, to);
+                                break;
+                            }
+                        case "SETSOURCE":
+                            {
+                                SearchNodeByName(input[1], out Node node);
+                                source = node;
+                                break;
+                            }
+                        case "SETSINK":
+                            {
+                                SearchNodeByName(input[1], out Node node);
+                                sink = node;
                                 break;
                             }
                         case "NOTADJACENT":

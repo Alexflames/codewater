@@ -89,6 +89,7 @@ namespace graphpract
             }
             Console.Write($"{to.GetName()} ");
         }
+
         static void PrintAllPairs(Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int>>> dictToPrint)
         {
             foreach (var item in dictToPrint) {
@@ -143,15 +144,13 @@ namespace graphpract
                     from = node;
                 }
             }
-
+            var res = G_Graph.FordBellmanShortestFromNode(from, g_Graph);
             foreach (Node to in g_Graph.GetGraph().Keys)
             {
                 if (to != from)
                 {
                     Console.Write($"до вершины {to.GetName()}: ");
-                    PrintPathFromTo(
-                        G_Graph.FordBellmanShortestFromNode(from, g_Graph),
-                        from, to);
+                    PrintPathFromTo(res, from, to);
                     Console.WriteLine();
                 }
             }
@@ -159,7 +158,7 @@ namespace graphpract
 
         static void Main(string[] args)
         {
-            string filename = "input_graph_Grigoriev2.txt";
+            string filename = "input_graph_G_network.txt";
             G_Graph mainGraph = new G_Graph(filename);
             Console.WriteLine("Открываю файл " + filename);
             mainGraph.WriteToConsole();
@@ -168,7 +167,9 @@ namespace graphpract
 
             //StartDijkstra(mainGraph, "8", "1");
 
-            StartFordBellman(mainGraph, "8");
+            //StartFordBellman(mainGraph, "8");
+
+            //mainGraph.Find_bridges();
 
             //Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");
             //if (mainGraph.IsWeighted() && !mainGraph.IsOriented())

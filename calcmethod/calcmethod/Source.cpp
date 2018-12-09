@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 
@@ -378,15 +379,59 @@ void methodCoushi(double from, double to, double step, int V) {
     double * e = new double[n];
     for (int i = 0; from < to + step / 2; from += step) {
         x[i] = from;
-        yt[i] = 1 * x[i] * x[i] * x[i] + 1 * x[i] + 5;
-        //ym[i] = 3 * V * x[i] * x[i] + 
+        yt[i] = V * x[i] * x[i] * x[i] + V * x[i] + V;
+        ym[i] = V + step * (3 * V * x[i] * x[i] + V - V * x[i] * x[i] * x[i] - V - V * x[i]);
         e[i] = abs(yt[i] - ym[i]);
         i++;
+    }
+
+    cout.setf(ios::fixed);
+
+    cout << "x = ";
+    for (int i = 0; i < n; i++) {
+        cout << setw(9) << setprecision(2) << i;
+    }
+    cout << endl << "y_t ";
+    for (int i = 0; i < n; i++) {
+        cout << setw(9) << setprecision(2) << yt[i];
+    }
+    cout << endl << "y_m ";
+    for (int i = 0; i < n; i++) {
+        cout << setw(9) << setprecision(2) << ym[i];
+    }
+
+    cout << endl << "e:  ";
+    for (int i = 0; i < n; i++) {
+        cout << setw(9) << setprecision(2) << e[i];
+    }
+}
+
+// Двумя методами надо
+void KrayDiff(double from, double to, double step) {
+    int n = (int)((to - from) / step);
+
+    double ** table = new double*[n] {new double[n]};
+    double * ans = new double[n];
+
+    double x = from;
+    double h = step;
+    for (int i = 0; x < to + (step / 2); i++, x += step) {
+        double a, b, c;
+        a = i == 0 ? 0 : 1 / (h * h) - (x * x / (2 * h));
+        b = x * x * x - (2 / (h * h));   // не наоборот ли?
+        c = i == n - 1 ? 0 : 1 / (h * h) + (x * x) / (2 * h);
+        
+        if (i != 0) table[i][i - 1] = a;
+        table[i][i] = b;
+        if (i != n) table[i][i + 1] = c;
+        if (i == 0) ans[i] = 0;
+
     }
 }
 
 int main() {
-	
+    // methodCoushi(1, 11, 1, 1);
+    KrayDiff(1, 11, 1);
 	system("pause");
 	return 0;
 }

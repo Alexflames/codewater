@@ -167,7 +167,7 @@ namespace technoprog10_2
         {
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(UntestedModule[]));
 
-            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("modules.json", FileMode.OpenOrCreate))
             {
                 jsonFormatter.WriteObject(fs, Modules);
             }
@@ -179,7 +179,7 @@ namespace technoprog10_2
         {
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(UntestedModule[]));
 
-            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("modules.json", FileMode.OpenOrCreate))
             {
                 Modules = (UntestedModule[])jsonFormatter.ReadObject(fs);
 

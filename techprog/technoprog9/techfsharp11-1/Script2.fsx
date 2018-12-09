@@ -8,7 +8,7 @@ let vcylinder r h = Math.PI * r * r * h |> nplus2
 printfn "%f" (vcylinder 3. 4.)
 
 let rec numsFromCurToN cur n = 
-    let LUL = printf "%A" cur
+    let LUL = printf "%A " cur
     if (cur <> n) then numsFromCurToN (cur + 1) n;
 let numsFromOneToN n = numsFromCurToN 0 n
 
@@ -38,6 +38,29 @@ type Potion = class
         let (r, g, b) = this.essence;
         printf "Красной жижи: %A Зелёной жижи: %A Синей жижи: %A \n" r g b
 end
+
+type Potion2(name : string, water : int, red : int, green : int, blue : int) = 
+    member this._name = name
+    member private this._water = water
+    member private this._red = red
+    member private this._green = green
+    member private this._blue = blue
+
+    new() =
+        new Potion2("unnamed", 200, 0, 0, 0);
+
+
+    member this.essence = (this._red, this._green, this._blue);
+    member this.name = this._name;
+    member this.water = this._water;
+    member this.fill (water : int, red : int, green : int, blue : int) =
+        this._water <- this._water + water;
+        this._red <- this._red + red;
+        this._green <- this._green + green;
+        this._blue <- this._blue + blue;
+    member this.print = 
+        let (r, g, b) = this.essence;
+        printf "Красной жижи: %A Зелёной жижи: %A Синей жижи: %A \n" r g b
 
 let pot1 = new Potion("Зелье превращения в картофеля", 500, 244, 122, 66);
 pot1.print;
