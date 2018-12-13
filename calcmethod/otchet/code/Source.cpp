@@ -7,15 +7,18 @@ using namespace std;
 
 const int v = 1; // Номер варианта
 
+const int start_X = -50;
+const int end_X = 50;
+
 struct funValue {
 	double x;
 	double f;
 };
 
-vector <funValue> CalcSinPartSums(int start, int end, int step) {
+vector <funValue>* CalcSinPartSums(int start, int end, int step) {
 	vector <funValue> ans;
 
-	for (int x = start; x <= end; x += step) {
+	for (int x = start_X; x <= end_X; x += 5) {
 		int sign = 1;
 		int factNext = 1;
 		double factDenominator = 1;
@@ -26,6 +29,8 @@ vector <funValue> CalcSinPartSums(int start, int end, int step) {
 		double prevSum = 0;
 		int nslags = 0;
 		double diff;
+
+		cout << "x = " << x << endl;
 
 		while (nslags == 0 || abs(diff) > 10e-9) {
 			prevSum = partSum;
@@ -45,14 +50,15 @@ vector <funValue> CalcSinPartSums(int start, int end, int step) {
 
 			diff = partSum - prevSum;
 		}
+
 		funValue thisStep; thisStep.x = x; thisStep.f = partSum;
 		ans.push_back(thisStep);
 	}
-	return ans;
+	return (&ans);
 }
 
 // Вынести  вычисления множителей отдельно
-vector <funValue> CalcLangranj(vector <funValue> * inputVector) {
+vector <funValue>* CalcLangranj(vector <funValue> * inputVector) {
 	vector <funValue> result_middleInter;
 	vector <funValue> input = *inputVector;
 
@@ -106,7 +112,7 @@ vector <funValue> CalcLangranj(vector <funValue> * inputVector) {
 	}
 	result_middleInter.push_back(input[input.size() - 1]);
 
-	return result_middleInter;
+	return (&result_middleInter);
 }
 
 // Вынести  вычисления множителей отдельно 
@@ -225,8 +231,7 @@ vector <vector <double>>* MakeSplineTable4Gauss(vector <funValue> * inputVector)
 //	}
 //}
 
-// Функция вывода введенной СЛАУ
-void outInput(double **a, double *y, int n)
+void sysout(double **a, double *y, int n)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -238,6 +243,7 @@ void outInput(double **a, double *y, int n)
 		}
 		cout << " = " << y[i] << endl;
 	}
+	return;
 }
 
 double * gauss(double **a, double *y, int n)
@@ -281,18 +287,18 @@ double * gauss(double **a, double *y, int n)
 		for (int i = k; i < n; i++)
 		{
 			double temp = a[i][k];
-			if (abs(temp) < eps) continue;
+			if (abs(temp) < eps) continue; // для нулевого коэффициента пропустить
 			for (int j = 0; j < n; j++)
 				a[i][j] = a[i][j] / temp;
 			y[i] = y[i] / temp;
-			if (i == k)  continue;
+			if (i == k)  continue; // уравнение не вычитать само из себя
 			for (int j = 0; j < n; j++)
 				a[i][j] = a[i][j] - a[k][j];
 			y[i] = y[i] - y[k];
 		}
 		k++;
 	}
-	// обратный ход метода Гаусса
+	// обратная подстановка
 	for (k = n - 1; k >= 0; k--)
 	{
 		x[k] = y[k];
@@ -302,59 +308,40 @@ double * gauss(double **a, double *y, int n)
 	return x;
 }
 
-void startFunctionCalc() {
-    vector <funValue> part_sums = CalcSinPartSums(-30, 30, 5);
-    for (int i = 0; i < part_sums.size(); i++) {
-    	cout << "| " << setw(10) << setprecision(4) << part_sums[i].x << " ";
-    }
-    cout << endl;
-    for (int i = 0; i < part_sums.size() * 10; i++) {
-    	cout << "-";
-    }
-    cout << endl;
-    for (int i = 0; i < part_sums.size(); i++) {
-    	cout << "| " << setw(10) << setprecision(4) << part_sums[i].f << " ";
-    }
-    cout << endl;
-    for (int i = -30; i <= 30; i+=5) {
-        cout << "| " << setw(10) << setprecision(4) << sin(2 * i) << " ";
-    }
-    cout << endl;
-}
-
 void startInterpolation() {
     // все 'x' и 'f' из дано ТУТ
-    vector <funValue> power3;
-    funValue temp = { 1, 1 };
-    power3.push_back(temp);
-    temp = { 2, 8 };
-    power3.push_back(temp);
-    temp = { 3, 27 };
-    power3.push_back(temp);
-    temp = { 4, 64 };
-    power3.push_back(temp);
+    //vector <funValue> power3;
+    //funValue temp = { 1, 1 };
+    //power3.push_back(temp);
+    //temp = { 2, 8 };
+    //power3.push_back(temp);
+    //temp = { 3, 27 };
+    //power3.push_back(temp);
+    //temp = { 4, 64 };
+    //power3.push_back(temp);
 
-    vector <funValue> result_middleInter = CalcNewton(&power3);
+    //vector <funValue> result_middleInter = CalcNewton(&power3);
 
-    for (int i = 0; i < result_middleInter.size(); i++) {
-        cout << "| " << setw(6) << setprecision(4) << result_middleInter[i].x << " ";
-    }
-    cout << endl;
-    for (int i = 0; i < result_middleInter.size() * 9; i++) {
-        cout << "-";
-    }
-    cout << endl;
-    for (int i = 0; i < result_middleInter.size(); i++) {
-        cout << "| " << setw(6) << setprecision(4) << result_middleInter[i].f << " ";
-    }
-    cout << endl;
+    //for (int i = 0; i < result_middleInter.size(); i++) {
+    //	cout << "|  " << result_middleInter[i].x << "  ";
+    //}
+    //cout << endl;
+    //for (int i = 0; i < result_middleInter.size() * 8; i++) {
+    //	cout << "-";
+    //}
+    //cout << endl;
+    //for (int i = 0; i < result_middleInter.size(); i++) {
+    //	cout << "| " << result_middleInter[i].f << " ";
+    //}
+
+    //cout << endl;
 }
 
-// Ввод данных и запуск метода Гаусса
 void startGauss() {
-    setlocale(LC_ALL, "RUSSIAN");
     double **a, *y, *x;
     int n;
+    //system("chcp 1251");
+    //system("cls");
     cout << "Введите количество уравнений: ";
     cin >> n;
     a = new double*[n];
@@ -373,47 +360,46 @@ void startGauss() {
         cout << "y[" << i << "]= ";
         cin >> y[i];
     }
-    outInput(a, y, n);
+    sysout(a, y, n);
     x = gauss(a, y, n);
     for (int i = 0; i < n; i++)
         cout << "x[" << i << "]=" << x[i] << endl;
+    cin.get(); cin.get();
 }
 
 // Функция задана вручную
-void methodEuler(double from, double to, double step, int V) {
+void methodCoushi(double from, double to, double step, int V) {
     int n = (int)((to - from) / step);
     // Значения x
     double * x = new double[n];
     double * yt = new double[n];
     double * ym = new double[n];
     double * e = new double[n];
-    cout << "x = ";
     for (int i = 0; from < to + step / 2; from += step) {
         x[i] = from;
-        cout << setw(9) << setprecision(2) << x[i];
-        if (i == 0) {
-            yt[0] = ym[0] = x[0] * x[0] * x[0] + x[0] + 1;
-            e[0] = 0;
-            i++;
-            continue;
-        }
         yt[i] = V * x[i] * x[i] * x[i] + V * x[i] + V;
-        ym[i] = V + step * (3 * V * x[i] * x[i] + V - V * x[i] * x[i] * x[i] - V - V * x[i]) + ym[i - 1];
+        ym[i] = V + step * (3 * V * x[i] * x[i] + V - V * x[i] * x[i] * x[i] - V - V * x[i]);
         e[i] = abs(yt[i] - ym[i]);
         i++;
     }
 
+    cout.setf(ios::fixed);
+
+    cout << "x = ";
+    for (int i = 0; i < n; i++) {
+        cout << setw(9) << setprecision(2) << i;
+    }
     cout << endl << "y_t ";
-    for (int i = 0; i <= n; i++) {
+    for (int i = 0; i < n; i++) {
         cout << setw(9) << setprecision(2) << yt[i];
     }
     cout << endl << "y_m ";
-    for (int i = 0; i <= n; i++) {
+    for (int i = 0; i < n; i++) {
         cout << setw(9) << setprecision(2) << ym[i];
     }
 
     cout << endl << "e:  ";
-    for (int i = 0; i <= n; i++) {
+    for (int i = 0; i < n; i++) {
         cout << setw(9) << setprecision(2) << e[i];
     }
 }
@@ -445,12 +431,8 @@ void KrayDiff(double from, double to, double step) {
 }
 
 int main() {
-    //startInterpolation();
-    methodEuler(1, 11, 1, 1);
-    //KrayDiff(1, 11, 1);
-    //startFunctionCalc();
-    // startGauss();
-    cout << endl;
+    // methodCoushi(1, 11, 1, 1);
+    KrayDiff(1, 11, 1);
 	system("pause");
 	return 0;
 }

@@ -1,0 +1,14 @@
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\ftocsharp.exe.config
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\ftocsharp.exe
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\ftocsharp.pdb
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\fsharpLib.dll
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\FSharp.Core.dll
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\fsharpLib.pdb
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\fsharpLib.xml
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\FSharp.Core.xml
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\bin\Debug\ru\FSharp.Core.resources.dll
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\obj\Debug\ftocsharp.csprojAssemblyReference.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\obj\Debug\ftocsharp.csproj.CoreCompileInputs.cache
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\obj\Debug\ftocsharp.csproj.CopyComplete
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\obj\Debug\ftocsharp.exe
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\ftocsharp\obj\Debug\ftocsharp.pdb
