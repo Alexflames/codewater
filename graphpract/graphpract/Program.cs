@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using G_GraphLib;
 
 namespace graphpract
 {
@@ -158,10 +159,18 @@ namespace graphpract
 
         static void Main(string[] args)
         {
-            string filename = "input_graph_G_network.txt";
+            // Для творческого задания - тест
+            string filename = "input_graph_Grigoriev2.txt";
+            //string filename = "input_graph_G_network.txt";
             G_Graph mainGraph = new G_Graph(filename);
             Console.WriteLine("Открываю файл " + filename);
             mainGraph.WriteToConsole();
+
+            //mainGraph.NetworkEdmondsKarp();
+            //mainGraph.WriteToConsole();
+
+            //var copy = new G_Graph(mainGraph, G_Graph.GraphCopyMode.STANDARD);
+            //copy.WriteToConsole();
 
             //PrintAllPairs(G_Graph.FloydShortestRoutes(mainGraph));
 
@@ -172,18 +181,18 @@ namespace graphpract
             //mainGraph.Find_bridges();
 
             //Console.WriteLine("Построение каркаса. Граф должен быть связным, неориентированным и взвешенным");
-            //if (mainGraph.IsWeighted() && !mainGraph.IsOriented())
-            //{
-            //    G_Graph minTree = G_Graph.Boruv(mainGraph);
-            //    minTree.WriteToConsole();
+            if (mainGraph.IsWeighted() && !mainGraph.IsOriented())
+            {
+                G_Graph minTree = G_Graph.Boruv(mainGraph);
+                minTree.WriteToConsole();
 
-            //    Node from = mainGraph.GetGraph().Keys.First();
+                Node from = mainGraph.GetGraph().Keys.First();
 
-            //    Dictionary<Node, Node> predVertices =
-            //        G_Graph.BFS_Prev(mainGraph, from);
+                Dictionary<Node, Node> predVertices =
+                    G_Graph.BFS_Prev(mainGraph, from);
 
-            //    OutClosestPaths(predVertices, from);
-            //}
+                OutClosestPaths(predVertices, from);
+            }
             //else
             //{
             //    Console.WriteLine("Ошибка, нельзя построить каркас" +

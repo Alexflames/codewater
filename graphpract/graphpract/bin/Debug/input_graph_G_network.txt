@@ -1,0 +1,36 @@
+// Каждая особая команда на отдельной строке
+// Доступные опции: orient, weight, network, name <имя>
+SET OPTION 
+network
+// вершины могут идти как через пробел, так и каждая на своей строке
+// https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%AD%D0%B4%D0%BC%D0%BE%D0%BD%D0%B4%D1%81%D0%B0_%E2%80%94_%D0%9A%D0%B0%D1%80%D0%BF%D0%B0 граф-сеть в примерах
+SET VERTEX
+A B C D E F G
+// вершина, а затем через пробел смежная вершина, 'w' + вес
+// 1 5 w2
+// 3 node1 w500
+// 1 3 c5 f3 - для сетей
+SET EDGE
+A B c3 f0
+A D c3 f0
+B C c4 f0
+C A c3 f0
+C D c1 f0
+C E c2 f0
+D E c2 f0
+D F c6 f0
+E G c1 f0
+F G c9 f0
+// 1 1
+// 5 5
+// Добавление, удаление
+// ADDV
+// ADDE
+// SETSOURCE -- не забыть!
+// SETSINK -- не забыть!
+SET ACTION
+
+SETSOURCE A
+SETSINK G
+
+SET END

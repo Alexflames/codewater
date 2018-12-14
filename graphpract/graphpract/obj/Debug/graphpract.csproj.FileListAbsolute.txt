@@ -10,3 +10,7 @@ C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphp
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\obj\Debug\graphpract.csproj.CoreCompileInputs.cache
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\obj\Debug\graphpract.exe
 C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\obj\Debug\graphpract.pdb
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\bin\Debug\graphpract.exe.config
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\bin\Debug\G_GraphLib.dll
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\bin\Debug\G_GraphLib.pdb
+C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\graphpract\obj\Debug\graphpract.csproj.CopyComplete
