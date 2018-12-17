@@ -1,0 +1,319 @@
+\documentclass[referat, times]{SCWorks}
+% параметр - тип обучения - одно из значений:
+%    spec     - специальность
+%    bachelor - бакалавриат (по умолчанию)
+%    master   - магистратура
+% параметр - форма обучения - одно из значений:
+%    och   - очное (по умолчанию)
+%    zaoch - заочное
+% параметр - тип работы - одно из значений:
+%    referat    - реферат
+%    coursework - курсовая работа (по умолчанию)
+%    diploma    - дипломная работа
+%    pract      - отчет по практике
+%    nir      - отчет о научно-исследовательской работе
+%    autoref    - автореферат выпускной работы
+%    assignment - задание на выпускную квалификационную работу
+%    review     - отзыв руководителя
+%    critique   - рецензия на выпускную работу
+% параметр - включение шрифта
+%    times    - включение шрифта Times New Roman (если установлен)
+%               по умолчанию выключен
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage{graphicx}
+
+\usepackage[sort,compress]{cite}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[english,russian]{babel}
+
+
+\usepackage[colorlinks=true]{hyperref}
+
+
+\newcommand{\eqdef}{\stackrel {\rm def}{=}}
+\newtheorem{lem}{Лемма}
+\lstset{
+	breaklines=true, 
+	language=C, 
+	numberstyle=\tiny, 
+	numbers=left, 
+	columns=flexible,
+	keepspaces=false, 
+	basicstyle=\small,
+}
+
+\begin{document}
+
+% Кафедра (в родительном падеже)
+%\chair{математической кибернетики и компьютерных наук}
+
+% Тема работы
+\title{Отчет по практике "--- теория графов}
+
+% Курс
+\course{3}
+
+% Группа
+\group{351}
+
+% Факультет (в родительном падеже) (по умолчанию "факультета КНиИТ")
+%\department{факультета КНиИТ}
+
+% Специальность/направление код - наименование
+%\napravlenie{02.03.02 "--- Фундаментальная информатика и информационные технологии}
+%\napravlenie{02.03.01 "--- Математическое обеспечение и администрирование информационных систем}
+%\napravlenie{09.03.01 "--- Информатика и вычислительная техника}
+\napravlenie{09.03.04 "--- Программная инженерия}
+%\napravlenie{10.05.01 "--- Компьютерная безопасность}
+
+% Для студентки. Для работы студента следующая команда не нужна.
+%\studenttitle{Студентки}
+
+% Фамилия, имя, отчество в родительном падеже
+\author{Григорьева Алексея Александровича}
+
+% Заведующий кафедрой
+%\chtitle{к.\,ф.-м.\,н.} % степень, звание
+%\chname{С.\,В.\,Миронов}
+
+%Научный руководитель (для реферата преподаватель проверяющий работу)
+\satitle{доцент, к. ф.-м. н.} %должность, степень, звание
+\saname{М.\,С.\,Портенко}
+
+% Руководитель практики от организации (только для практики,
+% для остальных типов работ не используется)
+%\patitle{доцент, к. ф.-м. н.} 
+%\paname{А.\,С.\,Иванова}
+
+% Семестр (только для практики, для остальных
+% типов работ не используется)
+\term{4}
+
+% Наименование практики (только для практики, для остальных
+% типов работ не используется)
+\practtype{ознакомительная}
+
+% Продолжительность практики (количество недель) (только для практики,
+% для остальных типов работ не используется)
+\duration{2}
+
+% Даты начала и окончания практики (только для практики, для остальных
+% типов работ не используется)
+\practStart{29.06.2018}
+\practFinish{12.07.2018}
+
+% Год выполнения отчета
+\date{2018}
+
+\maketitle
+
+% Включение нумерации рисунков, формул и таблиц по разделам
+% (по умолчанию - нумерация сквозная)
+% (допускается оба вида нумерации)
+%\secNumbering
+
+
+\tableofcontents
+
+% Раздел "Обозначения и сокращения". Может отсутствовать в работе
+%\abbreviations
+
+% Раздел "Определения". Может отсутствовать в работе
+%\definitions
+
+% Раздел "Определения, обозначения и сокращения". Может отсутствовать в работе.
+% Если присутствует, то заменяет собой разделы "Обозначения и сокращения" и "Определения"
+%\defabbr
+
+% Раздел "Введение"
+%\intro
+\section{Описание вспомогательных классов}
+Для решения задач были созданы вспомогательные классы: Node, EdgeTo, G\_Graph
+\subsection{Описание класса Node}
+Класс Node моделирует вершину(узел) графа. Поля и методы:
+\begin{itemize}
+\item string m\_id "--- имя вершины. Геттер "--- public string GetName().
+\item Color m\_color "--- цвет вершины для обходов графа. Геттер "--- public Color GetColor() и сеттер "--- public void SetColor(Color color). 
+Color "--- перечисляемый тип, принимающий значения WHITE, GREY, BLACK.
+\end{itemize}
+
+Определены 2 конструктора:
+\begin{itemize}
+\item public Node(string id) "--- создание узла с присвоением заданного имени
+\item public Node(Node node) "--- создание узла"=копии заданного узла
+\end{itemize}
+
+\subsection{Описание класса EdgeTo}
+Класс EdgetO моделирует ребро или дугу графа из какой-то вершины. Поля и методы:
+\begin{itemize}
+\item Node m\_nodeTo "--- вершину, в которую проведено ребро или узел. Геттер "--- public Node GetNodeTo().
+\item int m\_weight "--- вес дуги. Геттер "--- public int GetWeight() и сеттер "--- public void SetWeight(int weight). 
+\item (Для графа"=сети) public int capacity "--- пропускная способность дуги.
+\item (Для графа"=сети) public int flow "--- поток в данной дуге. 
+\end{itemize}
+
+Определены 4 конструктора:
+\begin{itemize}
+\item public EdgeTo(Node to) "--- создание ребра, ведущего в вершину to;
+\item public EdgeTo(Node to, int weight) "--- создание дуги, ведущей в вершину to с весом weight;
+\item public EdgeTo(Node to, int capacity, int flow) "--- создание дуги в графе"=сети, ведущей в вершину to с заданной пропускной способностью и потоком.
+\item public EdgeTo(EdgeTo edgeTo, Node nodeTo) "---  создание ребра"=копии, которое ведет в заданную вершину nodeTo.
+\end{itemize}
+
+\subsection{Описание класса G\_Graph}
+Класс G\_Graph моделирует граф. Поля:
+\begin{itemize}
+\item private Dictionary<Node, List<EdgeTo>> m\_graph "--- список смежности, каждой вершине приписывается список ребер.
+\item private bool m\_oriented "--- ориентированный ли граф
+\item private bool m\_weighted "--- взвешенный ли граф
+\item private bool m\_network "--- является ли граф сетью
+\item private InputMode m\_inputMode "--- режим считывания при вводе графа, подробнее будет описано при рассмотрении конструкторов графа. 
+\item public Node source { get; set; } "--- исток графа"=сети
+\item public Node sink { get; set; } "--- сток графа"=сети
+\end{itemize}
+
+Определены 3 конструктора:
+\begin{itemize}
+\item public G\_Graph() "--- конструктор по умолчанию, создает пустой граф.
+\item public G\_Graph(G\_Graph graph, GraphCopyMode graphCopyMode) "--- конструктор копирования, GraphCopyMode "--- перечисляемое значение,
+может быть: STANDARD "--- граф"=полная копия исходного, INVERSE "--- дополнение графа, VERTEX\_ONLY "--- копирование только вершин.
+\item public G\_Graph(string filename) "--- считывание графа из файла~\ref{input} по имени в папке с исполняемым файлом.
+\end{itemize}
+
+\subsubsection{Считывание графа с файла}
+Для удобства пользования программой была разработана особая система ввода графов.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale=1]{screenshot/input.png}
+    \caption{Пример входного файла для графа}\label{input} 
+\end{figure}
+Доступен следующий набор команд:
+\begin{itemize}
+\item SET OPTION позволяет указывать настройки графа: ориентированность, наличие весов у ребер, а также является ли граф сетью. По умолчанию граф неориентированный 
+\item SET VERTEX добавляет перечисленные вершины в графе по их именам.
+\item SET EDGE проводит ребра между двумя вершинами, при этом от типа графа имеется возможность указать дополнительные значения, принадлежащие данному ребру (вес, поток, пропускная способность)
+\item SET ACTION позволяет проводить дополнительные действия над графом, такие как: добавить ребро или вершину, удалить ребро или вершину, указать источник и сток.
+\item SET END завершает работу с графом, останавливая считывание ввода
+\end{itemize}
+
+\subsubsection{Методы для работы с графом}
+В ходе решения задач были разработаны следующие методы (краткое описание):
+\begin{itemize}
+\item \textbf{public List<Node> NodesByCondition(NodeSearchCondition nodeCondition, string conditionString)} "--- возвращает список вершин по заданному условию, которое принимает дополнительный аргумент с описанием условия. NodeSearchCondition принимает значения NOTADJACENT "--- несмежные вершины и HASLOOP "--- имеющие петли.
+
+\item \textbf{public List<Node> NodesByCondition(NodeSearchCondition nodeCondition)} "--- как предыдущий, только не принимает дополнительный аргумент.
+
+\item \textbf{public void WriteToConsole()} "--- вывод графа в консоль
+
+\item \textbf{public void DeleteNode(Node nodeToDelete)} "--- удаление узла и инцидентных ему ребер.
+
+\item \textbf{public void DeleteEdgeFromTo(Node nodeFrom, Node nodeTo)} "--- удалить ребро из вершины nodeFrom в nodeTo
+
+\item \textbf{private static bool NodeToNameSame(EdgeTo edgeTo, string name)} "--- условие для поиска узла с данным именем
+\item \textbf{public bool SearchNodeByName(string name, out Node toReturn)} "--- поиск узла с данным именем 
+\item \textbf{private void AddEdge(Node node, EdgeTo edge)} "--- добавление ребра или дуги (в зависимости от типа графа)
+\item \textbf{private void InsertNode(Node node)} "--- добавление узла
+\item \textbf{public InputMode GetState()} "--- считать, в каком состоянии находится граф
+\item \textbf{public Dictionary<Node, List<EdgeTo>> GetGraph()} "--- получение списка смежности для каждой вершины
+\item \textbf{public static G\_Graph Boruv(G\_Graph DFSgraph)} "--- алгоритм Борувки построения минимального остовного дерева.
+\item \textbf{private static void DFS\_AddToList(Node visitNode,
+Dictionary<Node, List<EdgeTo>> graph, ref List<Node> blackNodes)} "--- алгоритм поиска в глубину с добавлением посещенных вершин в список
+\item \textbf{private static bool DFS\_Visit\_Boruv(Node visitNode, G\_Graph dfsGraph, out EdgeTo minEdgeTo)} "--- обход в глубину с возвращением минимального ребра в компоненте связности
+\item \textbf{public static bool DFS\_HasAcycleRoot(G\_Graph DFSgraph)} "--- обход в глубину с определением наличия корня ациклического графа
+\item \textbf{private static void DFS\_Init(Dictionary<Node, List<EdgeTo>>.KeyCollection graph)} "--- инициализация поиска в глубину, обнуление вершин
+\item \textbf{private static void DFS\_Visit(Node visitNode, G\_Graph dfsGraph)} "--- посещение вершины (используется в алгоритме поиска в глубину)
+\item \textbf{public static Dictionary<Node, Node> BFS\_Prev(G\_Graph g\_Graph, Node startFrom)} "--- поиск в ширину с возвращением отображения, где каждой вершине сопоставляется предок в порядке обхода.
+\item \textbf{public static void BFS\_Visit\_Route(G\_Graph g\_Graph, Node startFrom,
+    ref Dictionary<Node, Node> toFrom, ref Dictionary<Node, bool> visited,
+    ref Queue<Node> nodesQueue)} "--- обход в ширину, возвращающий путь до вершины
+\item \textbf{public static Dictionary<Node, Dictionary<Node, KeyValuePair<Node, int> > > FloydShortestRoutes(G\_Graph g\_Graph)}"--- Нахождение кратчайших путей для всех пар вершин алгоритмом Флойда.
+\item \textbf{public static Dictionary<Node, KeyValuePair<Node, int>> FordBellmanShortestFromNode(Node root, G\_Graph g\_Graph)} "--- нахождение всех кратчайших путей из данной вершины
+\item \textbf{public void Find\_bridges()} "--- инициализация поиска мостов в графе
+\item \textbf{private void dfs\_Bridges(int v, int p = -1)} "--- обход в глубину для поиска мостов в графе
+\item \textbf{private void CreateProjectionToMatrix()} "--- создание отображения множества вершин на матрицу чисел от 1 до N = кол"=во вершин в графе
+\item \textbf{public void NetworkEdmondsKarp()} "--- нахождение максимального потока в графе
+\item \textbf{private static int FindLowestCapacity(G\_Graph graph, Dictionary<Node, Node> preds)} "--- нахождение минимальной пропускной способности по найденному с помощью BFS пути от истока к стоку
+\end{itemize}
+
+\section{Решение задач с использованием графов}
+Полный код каждой написанной функции можно увидеть в приложении~\ref{pril}
+\subsection{Вывести на экран все вершины графа, не смежные с данной}
+Для того чтобы решить данную задачу необходимо проверить список смежности каждой другой вершины графа. Если отсутствует ребро или дуга в данную вершину, то необходимо добавить её в ответ. 
+
+Это можно сделать вызвав функцию NodesByCondition(NodeSearchCondition.NOTADJACENT, "имя заданной вершины").
+
+\subsection{Вывести на экран все вершины графа, у которых есть петли.}
+Для решения поставленной задачи можно проверить наличие в списке смежности каждой вершины ребра или дуги в себя. 
+
+За это отвечает функция NodesByCondition(NodeSearchCondition.HASLOOP), возвращающая список вершин, удовлетворяющих условию
+
+\subsection{Вывести список смежности графа, являющегося дополнением данного графа.}
+Для выполнения поставленной задачи необходимо изначально скопировать только вершины, а затем запомнить все ребра в исходном графе, дополнение которого надо найти. При отсутствии потенциального ребра в списке запомненных, необходимо провести его в графе"=копии.
+
+Этот подход взят за основу в конструкторе копирования G\_Graph(G\_Graph graph, GraphCopyMode.INVERSE), на выходе которого получается граф"=дополнение
+
+\subsection{Определить, имеет ли данный ацикличный орграф корень.}
+Корнем ацикличного орграфа называется такая вершина u, что из неё существуют пути в каждую из остальных вершин орграфа. Другими словами, обход из этой вершины пройдет по всем вершинам. Воспользуемся данной логикой, запуская обход в глубину от каждой вершины и считая количество пройденных, предварительно восстанавливая всем вершинам белый цвет.
+
+Для решения поставленной задачи была разработана функция public static bool DFS\_HasAcycleRoot(G\_Graph DFSgraph), запуск которой дает ответ на данный вопрос.
+
+\subsection{Распечатать самый короткий из путей от u до остальных вершин.}
+Самым коротким путем будет являться найденный с помощью обхода в ширину. Сохраним предков для каждой вершины до u. После обхода сделаем рекурсивный вывод путей от заданной вершины до u.
+
+Решить поставленную задачу можно с помощью функции Dictionary<Node, Node> BFS\_Prev(G\_Graph g\_Graph, Node startFrom), возвращающей предка в кратчайшем пути
+
+\subsection{Требуется найти в графе каркас минимального веса с помощью алгоритма Борувки.}
+Алгоритм Борувки заключается в следующем:
+\begin{enumerate}
+\item Из графа строится лес.
+\item Выбираются компоненты связности с минимальным количеством узлов. К ним добавляется ребро исходного графа с минимальным весом, тем самым происходит слияние двух компонент связности. Запускаем обход в глубину от вершины компоненты связности, к которой добавили ребро.
+\item Если остались необработанные компоненты связности, повторяем шаг 2.
+\item Пока количество компонент связности больше 1, все вершины помечаются непройденными, переход к шагу 2.
+\item На выходе получаем граф"=каркас минимального веса.
+\end{enumerate}
+Примечание: компоненты связности определяются с помощью обхода в глубину.
+
+Данный алгоритм реализован в функции public static G\_Graph Boruv(G\_Graph DFSgraph).
+
+\subsection{Вывести кратчайший путь из вершины u до вершины v.}
+Примечание: в графе нет ребер отрицательного веса.
+Данное задание можно выполнить с помощью алгоритма Дейкстры. 
+
+
+Dictionary<Node, KeyValuePair<Node, int>> DijkstraShortestFromNode(Node root, G\_Graph g\_Graph)
+\newpage
+
+% Список литературы
+%\bibliographystyle{gost780uv}
+%\bibliography{thesis}
+
+% Окончание основного документа и начало приложений
+% Каждая последующая секция документа будет являться приложением
+
+\appendix
+\section{Приложение}~\label{pril}
+Отрывок программы, используемый для решения поставленной задачи.
+
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+
+IIIIIIIIIIIIII
+IIIIIIIIIIIIII
+
+\end{document}

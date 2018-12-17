@@ -1331,7 +1331,6 @@ namespace G_GraphLib
         // считывание графа из файла filename
         public G_Graph(string filename)
         {
-
             m_graph = new Dictionary<Node, List<EdgeTo>>();
 
             GraphActions(filename);
