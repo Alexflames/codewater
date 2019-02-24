@@ -1,7 +1,0 @@
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\bin\Debug\technoprog4-HW.exe.config
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\bin\Debug\technoprog4-HW.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\bin\Debug\technoprog4-HW.pdb
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\obj\Debug\technoprog4-HW.csprojAssemblyReference.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\obj\Debug\technoprog4-HW.csproj.CoreCompileInputs.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\obj\Debug\technoprog4-HW.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoprog4-3\technoprog4-HW\obj\Debug\technoprog4-HW.pdb

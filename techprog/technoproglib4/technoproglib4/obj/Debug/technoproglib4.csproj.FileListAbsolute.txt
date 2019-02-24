@@ -1,6 +1,0 @@
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\bin\Debug\technoproglib4.dll
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\bin\Debug\technoproglib4.pdb
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\obj\Debug\technoproglib4.csprojAssemblyReference.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\obj\Debug\technoproglib4.csproj.CoreCompileInputs.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\obj\Debug\technoproglib4.dll
-C:\Users\admin\Documents\Visual Studio 2017\Projects\techprog\technoproglib4\technoproglib4\obj\Debug\technoproglib4.pdb

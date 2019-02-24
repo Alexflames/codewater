@@ -1,6 +1,0 @@
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\bin\Debug\G_GraphLibOld.dll
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\bin\Debug\G_GraphLibOld.pdb
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\obj\Debug\G_GraphLibOld.csprojAssemblyReference.cache
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\obj\Debug\G_GraphLibOld.csproj.CoreCompileInputs.cache
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\obj\Debug\G_GraphLibOld.dll
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\graphpract\G_GraphLibOld\obj\Debug\G_GraphLibOld.pdb

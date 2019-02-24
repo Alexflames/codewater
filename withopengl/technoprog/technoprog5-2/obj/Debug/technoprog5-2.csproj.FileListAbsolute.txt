@@ -1,7 +1,0 @@
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\bin\Debug\technoprog5-2.exe.config
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\bin\Debug\technoprog5-2.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\bin\Debug\technoprog5-2.pdb
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\obj\Debug\technoprog5-2.csprojAssemblyReference.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\obj\Debug\technoprog5-2.csproj.CoreCompileInputs.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\obj\Debug\technoprog5-2.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog5-2\obj\Debug\technoprog5-2.pdb

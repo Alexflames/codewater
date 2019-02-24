@@ -1,6 +1,0 @@
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\bin\Debug\IndustrialLib.dll
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\bin\Debug\IndustrialLib.pdb
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\obj\Debug\IndustrialLib.csprojAssemblyReference.cache
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\obj\Debug\IndustrialLib.csproj.CoreCompileInputs.cache
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\obj\Debug\IndustrialLib.dll
-C:\Users\demon\Documents\Visual Studio 2017\Projects\codewater\techprog\technoprog9\IndustrialLib\obj\Debug\IndustrialLib.pdb

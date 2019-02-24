@@ -1,9 +1,0 @@
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\bin\Debug\technoprog2-3.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\bin\Debug\technoprog2-3.pdb
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2-3.csprojAssemblyReference.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2_3.Form1.resources
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2_3.Properties.Resources.resources
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2-3.csproj.GenerateResource.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2-3.csproj.CoreCompileInputs.cache
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2-3.exe
-C:\Users\admin\Documents\Visual Studio 2017\Projects\withopengl\technoprog\technoprog2-3\obj\Debug\technoprog2-3.pdb

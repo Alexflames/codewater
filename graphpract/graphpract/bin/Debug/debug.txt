@@ -1,9 +1,0 @@
-Added edge from: 1 to 6
-Added edge from: 2 to 5
-Added edge from: 7 to 9
-Added edge from: 8 to 10
-Added edge from: 3 to 5
-Added edge from: 4 to 1
-Added edge from: 3 to 1
-Added edge from: 6 to 7
-Added edge from: 9 to 10
