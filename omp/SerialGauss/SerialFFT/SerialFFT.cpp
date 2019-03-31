@@ -63,7 +63,8 @@ void SerialFFT(complex<double> *inputSignal,
 void PrintSignal(complex<double> *signal, int size) {
 	cout << "Result signal" << endl;
 	for (int i = 0; i < size; i++)
-		cout << signal[i] << endl;}
+		cout << signal[i] << endl;
+}
 
 #define PI (3.14159265358979323846)
 //Function for simple initialization of input signal elements

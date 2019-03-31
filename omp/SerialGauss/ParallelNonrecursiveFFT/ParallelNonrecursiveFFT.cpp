@@ -15,26 +15,51 @@ using namespace std;
 void BitReversing(complex<double> *inputSignal,
 	complex<double> *outputSignal, int size) {
 	int j = 0, i = 0;
-	while (i < size)
-	{
-		if (j > i)
-		{
-			outputSignal[i] = inputSignal[j];
-			outputSignal[j] = inputSignal[i];
-		}
-		else
-			if (j == i)
-				outputSignal[i] = inputSignal[i];
-		int m = size >> 1;
-		while ((m >= 1) && (j >= m))
-		{
-			j -= m;
-			m = m >> 1;
-		}
-		j += m;
-		i++;
+    while(i < size)
+    {
+        if (j > i)
+        {
+            outputSignal[i] = inputSignal[j];
+            outputSignal[j] = inputSignal[i];
+        }
+        else
+            if (j == i)
+                outputSignal[i] = inputSignal[i];
+        int m = size >> 1;
+        while ((m >= 1) && (j >= m))
+        {
+            j += -m;
+            m = m >> 1;
+        }
+        j += m;
+        i++;
 	}
 }
+
+//void BitReversing(complex<double> *inputSignal,
+//    complex<double> *outputSignal, int size) {
+//    int j = 0, i = 0;
+//#pragma omp parallel for reduction(+: j)
+//    for (i = 0; i < size; i++)
+//    {
+//        if (j > i)
+//        {
+//            outputSignal[i] = inputSignal[j];
+//            outputSignal[j] = inputSignal[i];
+//        }
+//        else
+//            if (j == i)
+//                outputSignal[i] = inputSignal[i];
+//        int m = size >> 1;
+//        while ((m >= 1) && (j >= m))
+//        {
+//            j += -m;
+//            m = m >> 1;
+//        }
+//        j += m;
+//    }
+//}
+
 __inline void Butterfly(complex<double> *signal,
 	complex<double> u, int offset, int butterflySize) {
 	complex<double> tem = signal[offset + butterflySize] * u;
@@ -44,14 +69,15 @@ __inline void Butterfly(complex<double> *signal,
 
 void ParallelFFTCalculation(complex<double> *signal, int size) {
 	int m = 0;
+    int p, i;
 	for (int tmp_size = size; tmp_size > 1; tmp_size /= 2, m++);
-#pragma omp parallel for
-	for (int p = 0; p < m; p++)
+	for (p = 0; p < m; p++)
 	{
 		int butterflyOffset = 1 << (p + 1);
 		int butterflySize = butterflyOffset >> 1;
 		double coeff = PI / butterflySize;
-		for (int i = 0; i < size / butterflyOffset; i++)
+#pragma omp parallel for schedule(static)
+		for (i = 0; i < size / butterflyOffset; i++)
 			for (int j = 0; j < butterflySize; j++)
 				Butterfly(signal, complex<double>(cos(-j * coeff),
 					sin(-j * coeff)), j + i * butterflyOffset, butterflySize);
