@@ -1,0 +1,4 @@
+﻿  FFTCalc.cpp
+c1xx : warning C4199: двухэтапный поиск имен не поддерживается для C++/CLI, C++/CX или OpenMP. Используйте /Zc:twoPhase-
+c:\users\79271\source\repos\omp\serialgauss\fftcalculation\fftcalc.cpp(252): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+  FFTCalculation.vcxproj -> C:\Users\79271\source\repos\omp\SerialGauss\x64\Debug\FFTCalculation.exe
