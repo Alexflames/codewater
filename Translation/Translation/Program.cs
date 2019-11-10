@@ -30,27 +30,35 @@ namespace Translation
 
         static void Main(string[] args)
         {
-            var SM = new FileStateMachine("TestSM.txt");
+            var SM = new File2StateMachine("TestSM2.txt");
+            var SMint = new File2StateMachine("intSM.txt");
+            var A = new File2StateMachine[2];
+            A[0] = SM; A[1] = SMint;
+
             List<string> numbers = new List<string>();
             string input = ReadFile("input1.txt");
             string output = "";
             int i = 0;
-            while (i < input.Length)
+            //while (i < input.Length)
+            //{
+            //    var res = StringFinder.MaxString(SM, input, i);
+            //    if (res.found)
+            //    {
+            //        numbers.Add(input.Substring(i, res.m));
+            //        i = i + Math.Max(res.m, 1);
+            //    }
+            //    else i++;
+            //    SM.ResetState();
+            //}
+            var answers = StringFinder.MaxToken(A, input);
+            foreach (var token in answers)
             {
-                var res = StringFinder.MaxString(SM, input, i);
-                if (res.found)
-                {
-                    numbers.Add(input.Substring(i, res.m));
-                    i = i + res.m;
-                }
-                else i++;
-                SM.ResetState();
-            }
-            foreach (var num in numbers)
-            {
-                output = output + num + " ";
+                output = output + token.token + " " + token.strLeft + "\n";
             }
             Console.Write(output);
+            var objWriter = new System.IO.StreamWriter("output1.txt");
+            objWriter.WriteLine(output);
+            objWriter.Close();
             return;
         }
     }

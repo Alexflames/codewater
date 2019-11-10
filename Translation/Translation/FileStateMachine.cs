@@ -6,40 +6,75 @@ using System.Threading.Tasks;
 
 namespace Translation
 {
-    class FileStateMachine : StateMachine
+    public class FileStateMachine : StateMachine
     {
-        public FileStateMachine(string filename)
+        protected Dictionary<string, string> ItoE = new Dictionary<string, string>();
+
+        protected virtual void ProceedQ(string Q)
         {
-            var sr = new System.IO.StreamReader(filename);
-            var Q = sr.ReadLine();
             foreach (string state in Q.Split(' '))
             {
                 this.Q.Add(state.ToUpper());
             }
-            var E = sr.ReadLine();
+        }
+
+        protected virtual void ProceedE(string E)
+        {
             foreach (string signal in E.Split(' '))
             {
                 this.E.Add(signal);
             }
-            var S = sr.ReadLine();
+        }
+
+        protected virtual void ProceedS(string S)
+        {
             foreach (string state in S.Split(' '))
             {
                 this.S.Add(state.ToUpper());
             }
-            var F = sr.ReadLine();
+        }
+
+        protected virtual void ProceedF(string F)
+        {
             foreach (string state in F.Split(' '))
             {
                 this.F.Add(state.ToUpper());
             }
+        }
 
+        protected virtual void ProceedD(System.IO.StreamReader sr)
+        {
             while (sr.Peek() != -1)
             {
                 var Dline = sr.ReadLine().Split(' ');
-                if (Dline.Length != 3) continue; 
+                if (Dline.Length != 3) continue;
                 D.Add(new PairS(Dline[0].ToUpper(),
                     Dline[1]), Dline[2].ToUpper());
             }
             sr.Close();
+        }
+
+        protected virtual void ProceedBefore(System.IO.StreamReader sr) { }
+
+        public FileStateMachine(string filename)
+        {
+            var sr = new System.IO.StreamReader(filename);
+            ProceedBefore(sr);
+
+            var Q = sr.ReadLine();
+            
+            ProceedQ(Q);
+
+            var E = sr.ReadLine();
+            ProceedE(E);
+
+            var S = sr.ReadLine();
+            ProceedS(S);
+
+            var F = sr.ReadLine();
+            ProceedF(F);
+
+            ProceedD(sr);
 
             ResetState();
         }

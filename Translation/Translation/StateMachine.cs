@@ -71,7 +71,7 @@ namespace Translation
             set { NextState(i); }
         }
 
-        public string NextState(string input)
+        public virtual string NextState(string input)
         {
             if (D.ContainsKey(new PairS(State, input)))
             {
